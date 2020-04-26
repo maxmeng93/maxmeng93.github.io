@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="xMV9Cl1Zwv3kAHKQMofWUQt8Vezt6KB4nhbhtijfzNE">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'IKMKY5PLMN',
+      apiKey: '2402ed27caf7c1e6b5ad4f83ae7ef011',
+      indexName: 'prod_Name',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="NginxNginx 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。因为项目需要用 Nginx 做前端的服务器，做一些反向代理等工作，因此抽空学习了下 Nginx 的基本用法。">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx的使用方法和基础配置">
+<meta property="og:url" content="https://blog.maxmeng.top/2017/05/27/Nginx的使用方法和基础配置/index.html">
+<meta property="og:site_name" content="MaxMeng">
+<meta property="og:description" content="NginxNginx 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。因为项目需要用 Nginx 做前端的服务器，做一些反向代理等工作，因此抽空学习了下 Nginx 的基本用法。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-26T09:41:34.026Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx的使用方法和基础配置">
+<meta name="twitter:description" content="NginxNginx 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。因为项目需要用 Nginx 做前端的服务器，做一些反向代理等工作，因此抽空学习了下 Nginx 的基本用法。">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.maxmeng.top/2017/05/27/Nginx的使用方法和基础配置/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Nginx的使用方法和基础配置 | MaxMeng</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-75583813-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-75583813-2');
+  </script>
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0d2b253b47b87bcab1e0f46e8f7e8bce";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MaxMeng</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">前端博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.maxmeng.top/2017/05/27/Nginx的使用方法和基础配置/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="孟禹丞">
+      <meta itemprop="description" content="孟禹丞的个人博客">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MaxMeng">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Nginx的使用方法和基础配置
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-05-27 16:15:52" itemprop="dateCreated datePublished" datetime="2017-05-27T16:15:52+08:00">2017-05-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-26 17:41:34" itemprop="dateModified" datetime="2020-04-26T17:41:34+08:00">2020-04-26</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <a href="/2017/05/27/Nginx的使用方法和基础配置/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/27/Nginx的使用方法和基础配置/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><p>Nginx 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。因为项目需要用 Nginx 做前端的服务器，做一些反向代理等工作，因此抽空学习了下 Nginx 的基本用法。</p>
+<a id="more"></a>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="必备软件"><a href="#必备软件" class="headerlink" title="必备软件"></a>必备软件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># GCC编译器</span><br><span class="line">yum install -y gcc</span><br><span class="line">yum install -y gcc-c++</span><br><span class="line"></span><br><span class="line"># PCRE库</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line"></span><br><span class="line"># zlib库</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line"></span><br><span class="line"># OpenSSL开发库</span><br><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<h3 id="Linux-内核参数的优化"><a href="#Linux-内核参数的优化" class="headerlink" title="Linux 内核参数的优化"></a>Linux 内核参数的优化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 修改 /etc/sysctl.conf 文件</span><br><span class="line">fs.file-max = 999999</span><br><span class="line">net.ipv4.tcp_tw_reuse = 1</span><br><span class="line">net.ipv4.tcp_keepalive_time = 600</span><br><span class="line">net.ipv4.tcp_fin_timeout = 30</span><br><span class="line">net.ipv4.tcp_max_tw_buckets = 5000</span><br><span class="line">net.ipv4.ip_local_port_range = 1024 61000</span><br><span class="line">net.ipv4.tcp_rmem = 4096 32768 262142</span><br><span class="line">net.ipv4.tcp_wmem = 4096 32768 262142</span><br><span class="line">net.core.netdev_max_backlog = 8096</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.rmem_max = 2097152</span><br><span class="line">net.core.wmem_max = 2097152</span><br><span class="line">net.ipv4.tcp_syncookies = 1</span><br><span class="line">net.ipv4.tcp_max_syn_backlog=1024</span><br><span class="line"></span><br><span class="line"># 执行sysctl-p命令，使上述修改生效</span><br></pre></td></tr></table></figure>
+<h3 id="选定源码目录"><a href="#选定源码目录" class="headerlink" title="选定源码目录"></a>选定源码目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/src</span><br></pre></td></tr></table></figure>
+<h3 id="下载、解压、安装nginx"><a href="#下载、解压、安装nginx" class="headerlink" title="下载、解压、安装nginx"></a>下载、解压、安装nginx</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 下载(去nginx官网找下载链接http://nginx.org/en/download.html)</span><br><span class="line">wget http://nginx.org/download/nginx-1.12.0.tar.gz</span><br><span class="line"></span><br><span class="line"># 解压</span><br><span class="line">tar -zxvf nginx-1.12.0.tar.gz</span><br><span class="line"></span><br><span class="line"># 安装（默认安装到 /usr/local/nginx）</span><br><span class="line"># 进入源码目录</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 检查80端口是否被占用</span><br><span class="line">netstat -ano|grep 80</span><br><span class="line"></span><br><span class="line"># ubuntu 下必须用 sudo 启动，不然只能在前台运行</span><br><span class="line">sudo /usr/local/nginx/nginx</span><br></pre></td></tr></table></figure>
+<h2 id="Nginx的命令行控制"><a href="#Nginx的命令行控制" class="headerlink" title="Nginx的命令行控制"></a>Nginx的命令行控制</h2><h3 id="默认方式启动"><a href="#默认方式启动" class="headerlink" title="默认方式启动"></a>默认方式启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+<h3 id="另行指定配置文件的启动方式"><a href="#另行指定配置文件的启动方式" class="headerlink" title="另行指定配置文件的启动方式"></a>另行指定配置文件的启动方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -c tmpnginx.conf</span><br></pre></td></tr></table></figure>
+<h3 id="另行指定安装目录的启动方式"><a href="#另行指定安装目录的启动方式" class="headerlink" title="另行指定安装目录的启动方式"></a>另行指定安装目录的启动方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -p /usr/local/nginx/</span><br></pre></td></tr></table></figure>
+<h3 id="另行指定全局配置项的启动方式"><a href="#另行指定全局配置项的启动方式" class="headerlink" title="另行指定全局配置项的启动方式"></a>另行指定全局配置项的启动方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -g &quot;pid varnginx/test.pid;&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="测试配置信息是否有错误"><a href="#测试配置信息是否有错误" class="headerlink" title="测试配置信息是否有错误"></a>测试配置信息是否有错误</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -t</span><br></pre></td></tr></table></figure>
+<h3 id="在测试配置阶段不输出信息"><a href="#在测试配置阶段不输出信息" class="headerlink" title="在测试配置阶段不输出信息"></a>在测试配置阶段不输出信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -t -q</span><br></pre></td></tr></table></figure>
+<h3 id="显示版本信息"><a href="#显示版本信息" class="headerlink" title="显示版本信息"></a>显示版本信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -v</span><br></pre></td></tr></table></figure>
+<h3 id="显示编译阶段的参数"><a href="#显示编译阶段的参数" class="headerlink" title="显示编译阶段的参数"></a>显示编译阶段的参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -V</span><br></pre></td></tr></table></figure>
+<h3 id="快速的停止服务"><a href="#快速的停止服务" class="headerlink" title="快速的停止服务"></a>快速的停止服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 强制停止服务</span><br><span class="line">/usr/local/nginx/sbin/nginx -s stop</span><br><span class="line"></span><br><span class="line"># 查看nginx master的进程ID</span><br><span class="line">ps -ef | grep nginx</span><br><span class="line"></span><br><span class="line">kill -s SIGTERM &lt;pid&gt;</span><br><span class="line"># 或</span><br><span class="line">kill -s SIGINT &lt;pid&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="优雅的停止服务"><a href="#优雅的停止服务" class="headerlink" title="优雅的停止服务"></a>优雅的停止服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 正常处理完当前的所有请求再停止服务</span><br><span class="line">/usr/local/nginx/sbin/nginx -s quit</span><br><span class="line"></span><br><span class="line"># 优雅停止master进程</span><br><span class="line">kill -s SIGQUIT &lt;nginx master pid&gt;</span><br><span class="line"></span><br><span class="line"># 优雅停止某个worker进程</span><br><span class="line">kill -s SIGUSR1 &lt;nginx master pid&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="使运行中的Nginx重读配置项并生效"><a href="#使运行中的Nginx重读配置项并生效" class="headerlink" title="使运行中的Nginx重读配置项并生效"></a>使运行中的Nginx重读配置项并生效</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -s reload</span><br><span class="line"># 或</span><br><span class="line">kill -s SIGHUP &lt;nginx master pid&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="日志文件回滚"><a href="#日志文件回滚" class="headerlink" title="日志文件回滚"></a>日志文件回滚</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -s reopen</span><br><span class="line"># 或</span><br><span class="line">kill -s SIGUSR1 &lt;nginx master pid&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="平滑升级Nginx"><a href="#平滑升级Nginx" class="headerlink" title="平滑升级Nginx"></a>平滑升级Nginx</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 通知正在运行的旧版本Nginx准备升级</span><br><span class="line">kill -s SIGUSR2 &lt;nginx master pid&gt;</span><br><span class="line"></span><br><span class="line"># 启动新版本的Nginx，可以使用以上介绍过的任意一种启动方法。这时通过ps命令可</span><br><span class="line">以发现新旧版本的Nginx在同时运行。</span><br><span class="line"></span><br><span class="line"># 通过kill命令向旧版本的master进程发送SIGQUIT信号，以“优雅”的方式关闭旧版本的</span><br><span class="line">Nginx。随后将只有新版本的Nginx服务运行，此时平滑升级完毕。</span><br></pre></td></tr></table></figure>
+<h3 id="显示命令行帮助"><a href="#显示命令行帮助" class="headerlink" title="显示命令行帮助"></a>显示命令行帮助</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># 使用-h或者-?参数会显示支持的所有命令行参数。</span><br></pre></td></tr></table></figure>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="配置项的语法格式"><a href="#配置项的语法格式" class="headerlink" title="配置项的语法格式"></a>配置项的语法格式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 配置项名（空格）配置项值（空格）配置项值（分号）</span><br><span class="line"># 每行配置的结尾需要加上分号</span><br><span class="line"># 如果配置项值中包括语法符号，比如空格符，那么需要使用单引号或双引号括住配置项值，否则Nginx会报语法错误。</span><br><span class="line">log_format main &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="配置项的单位"><a href="#配置项的单位" class="headerlink" title="配置项的单位"></a>配置项的单位</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 当指定空间大小事，可以使用的单位包括：</span><br><span class="line"># K或者k千字节（KiloByte，KB）</span><br><span class="line"># M或者m兆字节（MegaByte，MB）</span><br><span class="line"></span><br><span class="line"># 当指定时间时，可以使用的单位包括：</span><br><span class="line"># ms（毫秒）</span><br><span class="line"># s（秒）</span><br><span class="line"># m（分钟）</span><br><span class="line"># h（小时）</span><br><span class="line"># d（天）</span><br><span class="line"># w（周，包含7天）</span><br><span class="line"># M（月，包含30天）</span><br><span class="line"># y（年，包含365天）</span><br></pre></td></tr></table></figure>
+<h2 id="Nginx服务的基本配置"><a href="#Nginx服务的基本配置" class="headerlink" title="Nginx服务的基本配置"></a>Nginx服务的基本配置</h2><h3 id="用于调试进程和定位问题的配置项"><a href="#用于调试进程和定位问题的配置项" class="headerlink" title="用于调试进程和定位问题的配置项"></a>用于调试进程和定位问题的配置项</h3><p>（1） 是否以守护进程方式运行Nginx  </p>
+<p>语法：daemon on|off;<br>默认：daemon on;</p>
+<p>（2） 是否以 master/worker方式工作</p>
+<p>语法：master_process on|off;<br>默认：master_process on;</p>
+<p>（3）error日志的设置</p>
+<p>语法：error_log pathfile level;<br>默认： error_log logs/error.log error;</p>
+<p>pathfile参数可以是一个具体的文件，例如，默认情况下是logs/error.log文件，最好将它<br>放到一个磁盘空间足够大的位置；pathfile也可以是/dev/null，这样就不会输出任何日志了，<br>这也是关闭error日志的唯一手段；pathfile也可以是stderr，这样日志会输出到标准错误文件<br>中。  </p>
+<p>level是日志的输出级别，取值范围是debug、info、notice、warn、error、crit、alert、<br>emerg，从左至右级别依次增大。当设定为一个级别时，大于或等于该级别的日志都会被输<br>出到pathfile文件中，小于该级别的日志则不会输出。例如，当设定为error级别时，error、<br>crit、alert、emerg级别的日志都会输出。</p>
+<p>（4）是否处理几个特殊的调试点  </p>
+<p>语法：debug_points[stop|abort]  </p>
+<p>（5）仅对指定的客户端输入debug级别的日志（事件类配置，必须放到events{…}中才有效）  </p>
+<p>语法：debug_connection[IP|CIDR]<br>注意：使用debug_connection前，需确保在执行configure时已经加入了–with-debug参<br>数，否则不会生效</p>
+<p>（6）限制coredump核心转储文件的大小  </p>
+<p>语法： worker_rlimit_core size;</p>
+<p>（7）指定coredump文件生成目录</p>
+<p>语法： working_directory path;</p>
+<h3 id="正常运行的配置项"><a href="#正常运行的配置项" class="headerlink" title="正常运行的配置项"></a>正常运行的配置项</h3><p>（1）定义环境变量</p>
+<p>语法： env VAR|VAR=VALUE</p>
+<p>（2）嵌入其他配置文件</p>
+<p>语法： include pathfile;</p>
+<p>（3）pid文件的路径</p>
+<p>语法： pid path/file;<br>默认： pid logs/nginx.pid;</p>
+<p>（4）Nginx worker进程运行的用户及用户组</p>
+<p>语法： user username[groupname];<br>默认： user nobody nobody;</p>
+<p>（5）指定Nginx worker进程可以打开的最大句柄描述符个数  </p>
+<p>语法： worker_rlimit_nofile limit;</p>
+<p>（6）限制信号队列</p>
+<p>语法： worker_rlimit_sigpending limit;</p>
+<h3 id="优化性能的配置项"><a href="#优化性能的配置项" class="headerlink" title="优化性能的配置项"></a>优化性能的配置项</h3><p>（1）Nginx worker进程个数</p>
+<p>语法： worker_processes number;<br>默认： worker_processes 1;</p>
+<p>（2）绑定Nginx worker进程到指定的CPU内核</p>
+<p>语法： worker_cpu_affinity cpumask[cpumask…]</p>
+<p>（3）SSL硬件加速</p>
+<p>语法： ssl_engine device；</p>
+<p>（4）系统调用gettimeofday的执行频率</p>
+<p>语法： timer_resolution t;</p>
+<p>（5）Nginx worker进程优先级设置</p>
+<p>语法： worker_priority nice;<br>默认： worker_priority 0;</p>
+<h3 id="事件类配置项"><a href="#事件类配置项" class="headerlink" title="事件类配置项"></a>事件类配置项</h3><p>（1）是否打开accept锁</p>
+<p>语法： accept_mutex [on|off]<br>默认： accept_mutext on;</p>
+<p>（2）lock文件的路径</p>
+<p>语法： lock_file path/file;<br>默认： lock_file logs/nginx.lock;</p>
+<p>（3）使用accept锁后到真正建立连接之间的延迟时间</p>
+<p>语法： accept_mutex_delay Nms;<br>默认： accept_mutex_delay 500ms;</p>
+<p>（4）批量建立新连接</p>
+<p>语法： multi_accept[on|off];<br>默认： multi_accept off;</p>
+<p>（5）选择事件模型</p>
+<p>语法： use[kqueue|rtsig|epoll|/dev/poll|select|poll|eventport];<br>默认： Nginx会自动使用最适合的事件模型。</p>
+<p>（6）每个worker的最大连接数</p>
+<p>语法： worker_connections number;</p>
+<h2 id="配置一个静态Web服务器"><a href="#配置一个静态Web服务器" class="headerlink" title="配置一个静态Web服务器"></a>配置一个静态Web服务器</h2><p>静态Web服务器的主要功能由ngx_http_core_module模块（HTTP框架的主要成员）实现，<br>当然，一个完整的静态Web服务器还有许多功能是由其他的HTTP模块实现的。</p>
+<p>可以通过简单的查询相关模块（如ngx_http_gzip_filter_module、<br>ngx_http_image_filter_module等）的配置项说明，方便地在nginx.conf配置文件中加入新的配置<br>项，从而实现更多的Web服务器功能。</p>
+<h2 id="用HTTP-proxy-module-配置一个反向代理服务器"><a href="#用HTTP-proxy-module-配置一个反向代理服务器" class="headerlink" title="用HTTP proxy module 配置一个反向代理服务器"></a>用HTTP proxy module 配置一个反向代理服务器</h2><h3 id="负载均衡的基本配置"><a href="#负载均衡的基本配置" class="headerlink" title="负载均衡的基本配置"></a>负载均衡的基本配置</h3><p>（1）upstream块</p>
+<p>语法： upstream name{…}<br>配置块： http</p>
+<p>（2）server</p>
+<p>语法： server name[parameters];<br>配置块： upstream</p>
+<p>（3）ip_hash</p>
+<p>语法： ip_hash;<br>配置块： upstream</p>
+<p>（4）记录日志时支持的变量</p>
+<h3 id="反向代理的基本配置"><a href="#反向代理的基本配置" class="headerlink" title="反向代理的基本配置"></a>反向代理的基本配置</h3><p>（1）proxy_pass</p>
+<p>语法： proxy_pass URL;<br>配置块： location、if</p>
+<p>（2）proxy_method</p>
+<p>语法： proxy_method method;<br>配置块： http、server、location</p>
+<p>（3）proxy_hide_header</p>
+<p>语法： proxy_hide_header the_header;<br>配置块： http、server、location</p>
+<p>（4）proxy_pass_header</p>
+<p>语法： proxy_pass_header the_header;<br>配置块： http、server、location</p>
+<p>（5）proxy_pass_request_body</p>
+<p>语法： proxy_pass_request_body on|off;<br>默认： proxy_pass_request_body on;<br>配置块： http、server、location</p>
+<p>（6）proxy_pass_request_headers</p>
+<p>语法： proxy_pass_request_headers on|off;<br>默认： proxy_pass_request_headers on;<br>配置块： http、server、location</p>
+<p>（7）proxy_redirect</p>
+<p>语法： proxy_redirect[default|off|redirect replacement];<br>默认： proxy_redirect default;<br>配置块： http、server、location</p>
+<p>（8）proxy_next_upstream</p>
+<p>语法：<br>proxy_next_upstream[error|timeout|invalid_header|http_500|http_502|http_503|http_504|http_404|off];<br>默认： proxy_next_upstream error timeout;<br>配置块： http、server、location</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/23/数据结构-图/" rel="next" title="数据结构-图">
+                <i class="fa fa-chevron-left"></i> 数据结构-图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/21/学习ES6模块/" rel="prev" title="学习ES6模块">
+                学习ES6模块 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="孟禹丞">
+            
+              <p class="site-author-name" itemprop="name">孟禹丞</p>
+              <p class="site-description motion-element" itemprop="description">孟禹丞的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/maxmeng93" title="GitHub &rarr; https://github.com/maxmeng93" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:maxmeng93@gmail.com" title="E-Mail &rarr; mailto:maxmeng93@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.maxmeng.top/" title="https://www.maxmeng.top/" rel="noopener" target="_blank">MaxMeng</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://webstack.maxmeng.top/" title="https://webstack.maxmeng.top/" rel="noopener" target="_blank">前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.maxmeng.top/d3-example/" title="https://blog.maxmeng.top/d3-example/">学习D3系列</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx"><span class="nav-number">1.</span> <span class="nav-text">Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#必备软件"><span class="nav-number">1.1.1.</span> <span class="nav-text">必备软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核参数的优化"><span class="nav-number">1.1.2.</span> <span class="nav-text">Linux 内核参数的优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选定源码目录"><span class="nav-number">1.1.3.</span> <span class="nav-text">选定源码目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载、解压、安装nginx"><span class="nav-number">1.1.4.</span> <span class="nav-text">下载、解压、安装nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">1.1.5.</span> <span class="nav-text">启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx的命令行控制"><span class="nav-number">1.2.</span> <span class="nav-text">Nginx的命令行控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认方式启动"><span class="nav-number">1.2.1.</span> <span class="nav-text">默认方式启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#另行指定配置文件的启动方式"><span class="nav-number">1.2.2.</span> <span class="nav-text">另行指定配置文件的启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#另行指定安装目录的启动方式"><span class="nav-number">1.2.3.</span> <span class="nav-text">另行指定安装目录的启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#另行指定全局配置项的启动方式"><span class="nav-number">1.2.4.</span> <span class="nav-text">另行指定全局配置项的启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试配置信息是否有错误"><span class="nav-number">1.2.5.</span> <span class="nav-text">测试配置信息是否有错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在测试配置阶段不输出信息"><span class="nav-number">1.2.6.</span> <span class="nav-text">在测试配置阶段不输出信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示版本信息"><span class="nav-number">1.2.7.</span> <span class="nav-text">显示版本信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示编译阶段的参数"><span class="nav-number">1.2.8.</span> <span class="nav-text">显示编译阶段的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速的停止服务"><span class="nav-number">1.2.9.</span> <span class="nav-text">快速的停止服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优雅的停止服务"><span class="nav-number">1.2.10.</span> <span class="nav-text">优雅的停止服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使运行中的Nginx重读配置项并生效"><span class="nav-number">1.2.11.</span> <span class="nav-text">使运行中的Nginx重读配置项并生效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日志文件回滚"><span class="nav-number">1.2.12.</span> <span class="nav-text">日志文件回滚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平滑升级Nginx"><span class="nav-number">1.2.13.</span> <span class="nav-text">平滑升级Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示命令行帮助"><span class="nav-number">1.2.14.</span> <span class="nav-text">显示命令行帮助</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">1.3.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置项的语法格式"><span class="nav-number">1.3.1.</span> <span class="nav-text">配置项的语法格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置项的单位"><span class="nav-number">1.3.2.</span> <span class="nav-text">配置项的单位</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx服务的基本配置"><span class="nav-number">1.4.</span> <span class="nav-text">Nginx服务的基本配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用于调试进程和定位问题的配置项"><span class="nav-number">1.4.1.</span> <span class="nav-text">用于调试进程和定位问题的配置项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正常运行的配置项"><span class="nav-number">1.4.2.</span> <span class="nav-text">正常运行的配置项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化性能的配置项"><span class="nav-number">1.4.3.</span> <span class="nav-text">优化性能的配置项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件类配置项"><span class="nav-number">1.4.4.</span> <span class="nav-text">事件类配置项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置一个静态Web服务器"><span class="nav-number">1.5.</span> <span class="nav-text">配置一个静态Web服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用HTTP-proxy-module-配置一个反向代理服务器"><span class="nav-number">1.6.</span> <span class="nav-text">用HTTP proxy module 配置一个反向代理服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡的基本配置"><span class="nav-number">1.6.1.</span> <span class="nav-text">负载均衡的基本配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反向代理的基本配置"><span class="nav-number">1.6.2.</span> <span class="nav-text">反向代理的基本配置</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">晋ICP备16002083号-1 </a>&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟禹丞</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+  <script id="dsq-count-scr" src="https://maxmeng.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.maxmeng.top/2017/05/27/Nginx的使用方法和基础配置/";
+    this.page.identifier = "2017/05/27/Nginx的使用方法和基础配置/";
+    this.page.title = 'Nginx的使用方法和基础配置';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://maxmeng.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+  
+  
+    
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.min.css">
+
+  
+  
+    
+  
+  <script src="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

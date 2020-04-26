@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="xMV9Cl1Zwv3kAHKQMofWUQt8Vezt6KB4nhbhtijfzNE">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'IKMKY5PLMN',
+      apiKey: '2402ed27caf7c1e6b5ad4f83ae7ef011',
+      indexName: 'prod_Name',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="js/jQuery中的宽和高">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js&#x2F;jQuery中的宽和高">
+<meta property="og:url" content="https://blog.maxmeng.top/2017/02/02/js-jQuery中的宽和高/index.html">
+<meta property="og:site_name" content="MaxMeng">
+<meta property="og:description" content="js/jQuery中的宽和高">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-26T09:41:34.026Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js&#x2F;jQuery中的宽和高">
+<meta name="twitter:description" content="js/jQuery中的宽和高">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.maxmeng.top/2017/02/02/js-jQuery中的宽和高/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>js/jQuery中的宽和高 | MaxMeng</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-75583813-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-75583813-2');
+  </script>
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0d2b253b47b87bcab1e0f46e8f7e8bce";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MaxMeng</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">前端博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.maxmeng.top/2017/02/02/js-jQuery中的宽和高/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="孟禹丞">
+      <meta itemprop="description" content="孟禹丞的个人博客">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MaxMeng">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">js/jQuery中的宽和高
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-02-02 19:25:46" itemprop="dateCreated datePublished" datetime="2017-02-02T19:25:46+08:00">2017-02-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-26 17:41:34" itemprop="dateModified" datetime="2020-04-26T17:41:34+08:00">2020-04-26</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <a href="/2017/02/02/js-jQuery中的宽和高/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/02/02/js-jQuery中的宽和高/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>js/jQuery中的宽和高</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="window-与-document"><a href="#window-与-document" class="headerlink" title="window 与 document"></a>window 与 document</h1><p>window:窗口<br>Window对象表示浏览器中打开的窗口<br>Window对象可以省略</p>
+<p>document:文档<br>Document对象是Window对象的一部分<br>浏览器的HTML文档称为Document对象</p>
+<p>window.location === document.location </p>
+<h1 id="与window相关的宽高介绍"><a href="#与window相关的宽高介绍" class="headerlink" title="与window相关的宽高介绍"></a>与window相关的宽高介绍</h1><p>window.innerWidth 内部宽度 只包含内部显示区域<br>window.innerHeight 内部高度<br>window.outerWidth 外部宽度 还包括浏览器搜索栏等<br>window.outerHeight 外部高度</p>
+<p>window.screen 用户屏幕信息<br>window.screen.height 屏幕高度（不变的）<br>window.screen.width  屏幕宽度（不变的）<br>window.screen.availHeight  屏幕可利用高度（不变的）<br>window.screen.availWidth   屏幕可利用宽度（不变的）<br>window.screenLeft  浏览器距离屏幕左侧距离（可变的）<br>window.screenTop   浏览器距离屏幕顶部距离（可变的）</p>
+<h1 id="与document相关的宽高介绍"><a href="#与document相关的宽高介绍" class="headerlink" title="与document相关的宽高介绍"></a>与document相关的宽高介绍</h1><h2 id="client"><a href="#client" class="headerlink" title="client"></a>client</h2><p>document.body.clientWidth<br>document.body.clientHeight<br>document.body.clientLeft<br>document.body.clientTop</p>
+<h3 id="clientWidth-和-clientHeight"><a href="#clientWidth-和-clientHeight" class="headerlink" title="clientWidth 和 clientHeight"></a>clientWidth 和 clientHeight</h3><ul>
+<li>该属性指的是元素的可视部分宽度和高度，即padding+content。</li>
+<li>如果没有滚动条，即为元素设定的高度和宽度。</li>
+<li>如果出现滚动条，滚动条会遮盖元素的宽高，那么该属性就是本来的宽高减去滚动条的宽高</li>
+</ul>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>假如无padding无滚动<br>clientWidth = style.width</p>
+<p>假如有padding无滚动<br>clientWidth = style.width + style.padding * 2</p>
+<p>假如有padding有滚动，且滚动是显示的<br>clientWidth = style.width + style.padding * 2 - 滚动条宽度</p>
+<h3 id="clientLeft-和-clientTop"><a href="#clientLeft-和-clientTop" class="headerlink" title="clientLeft 和 clientTop"></a>clientLeft 和 clientTop</h3><p>这两个返回的是元素周围边框的厚度，如果不指定一个边框或者不定位该元素，它的值就是0。</p>
+<h4 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h4><p>这一对属性是用来读取元素的border的宽度和高度的</p>
+<p>clientTop = border-top的border-width<br>clientLeft = border-left的border-width</p>
+<h2 id="offset"><a href="#offset" class="headerlink" title="offset"></a>offset</h2><p>document.body.offsetWidth<br>document.body.offsetHeight<br>document.body.offsetLeft<br>document.body.offsetTop</p>
+<h3 id="offsetWidth-和-offsetHeight"><a href="#offsetWidth-和-offsetHeight" class="headerlink" title="offsetWidth 和 offsetHeight"></a>offsetWidth 和 offsetHeight</h3><p>这一对属性指的是元素的border+padding+content的宽度和高度<br>该属性和其内部的内容是否超出元素大小无关，只和本来设定的border以及width和height有关。</p>
+<h4 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h4><p>假如无padding无滚动无border<br>offsetWidth = clientWidth = style.width</p>
+<p>假如有padding无滚动有border<br>offsetWidth = style.width + style.padding<em>2 + border宽度</em>2<br>offsetWidth = clientWidth + border宽度*2</p>
+<p>假如有padding有滚动，且滚动是显示的，有border<br>offsetWidth = style.width + style.padding<em>2 + border宽度</em>2<br>offsetWidth = clientWidth + 滚动条宽度 + border宽度*2</p>
+<h3 id="offsetLeft-和-offsetTop"><a href="#offsetLeft-和-offsetTop" class="headerlink" title="offsetLeft 和 offsetTop"></a>offsetLeft 和 offsetTop</h3><h4 id="offsetParent"><a href="#offsetParent" class="headerlink" title="offsetParent"></a>offsetParent</h4><ul>
+<li>如果当前元素的父级元素没有进行CSS定位（position为absolute或relative），offsetParent为body</li>
+<li>如果当前元素的父级元素中有CSS定位（position为absolute或relative），offsetParent为最近有定位的父级元素</li>
+</ul>
+<p>在IE6/7<br>offsetLeft = (offsetParent的padding-left) + (当前元素的margin-left)</p>
+<p>在IE8/9/10及chrome中<br>offsetLeft = (offsetParent的margin-left) + (offsetParent的border宽度) + (offsetParent的padding-left) + (当前元素的margin-left)</p>
+<p>在FireFox中<br>offsetLeft = (offsetParent的margin-left) + (当前元素的margin-left) + (offsetParent的padding-left)</p>
+<h2 id="scroll"><a href="#scroll" class="headerlink" title="scroll"></a>scroll</h2><p>document.body.scrollWidth<br>document.body.scrollHeight<br>document.body.scrollLeft<br>document.body.scrollTop</p>
+<h3 id="scrollWidth-和-scrollHeight"><a href="#scrollWidth-和-scrollHeight" class="headerlink" title="scrollWidth 和 scrollHeight"></a>scrollWidth 和 scrollHeight</h3><p>document.body的scrollWidth 和 scrollHeight与div的scrollWidth和scrollHeight是有点区别的。</p>
+<h4 id="document-body的scrollWidth和scrollHeight"><a href="#document-body的scrollWidth和scrollHeight" class="headerlink" title="document.body的scrollWidth和scrollHeight"></a>document.body的scrollWidth和scrollHeight</h4><p>一：给定宽高小于浏览器窗口<br>scrollWidth通常是浏览器窗口的宽度<br>scrollHeight通常是浏览器窗口的高度</p>
+<p>二：给定宽高大于浏览器窗口，且内容小于给定宽高<br>scrollWidth给定的宽度+其所有的padding、margin和border<br>scrollHeight给定的高度+其所有的padding、margin和border</p>
+<p>三：给定宽高大于浏览器窗口，且内容大于给定宽高<br>scrollWidth内部宽度+其所有的padding、margin和border<br>scrollHegiht内部高度+其所有的padding、margin和border</p>
+<h4 id="div的scrollWidth和scrollHeight"><a href="#div的scrollWidth和scrollHeight" class="headerlink" title="div的scrollWidth和scrollHeight"></a>div的scrollWidth和scrollHeight</h4><p>无滚动轴时：<br>scrollWidth == clientWidth = style.width + style.padding </p>
+<p>有滚动轴时：<br>scrollWidth == 是实际内容的宽度 + padding <em> 2<br>scrollHeight == 是实际内容的高度 + padding </em> 2</p>
+<h3 id="scrollLeft-和-scrollTop"><a href="#scrollLeft-和-scrollTop" class="headerlink" title="scrollLeft 和 scrollTop"></a>scrollLeft 和 scrollTop</h3><p>这些属性是可读写的，指的是当元素其中的内容超出其宽高的时候，元素被卷起的高度和宽度。</p>
+<h2 id="documentElement-和-body"><a href="#documentElement-和-body" class="headerlink" title="documentElement 和 body"></a>documentElement 和 body</h2><p>document.documentElement  html<br>document.body             body<br>docuemnt.documentElement.clientHeight == document.body.clientHeight</p>
+<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><p>client相关宽高，各个浏览器解析都一样<br>当我们要获取可视区域的宽高时<br>document.documentElement.clientWidth || document.bodiy.clientWidth</p>
+<p>offset相关宽高<br>offsetTop和offsetLeft兼容问题前面有解决方案<br>offsetWidth和offsetHeight各个浏览器解析基本一致</p>
+<p>scroll相关宽高<br>前面有解决方案</p>
+<h2 id="Event中的5种坐标"><a href="#Event中的5种坐标" class="headerlink" title="Event中的5种坐标"></a>Event中的5种坐标</h2><h3 id="clientX-和-clientY"><a href="#clientX-和-clientY" class="headerlink" title="clientX 和 clientY"></a>clientX 和 clientY</h3><p>相对于浏览器可视区域(0,0)的坐标</p>
+<h3 id="screenX-和-screenY"><a href="#screenX-和-screenY" class="headerlink" title="screenX 和 screenY"></a>screenX 和 screenY</h3><p>相对于设备屏幕左上角(0,0)的坐标</p>
+<h3 id="offsetX-和-offsetY"><a href="#offsetX-和-offsetY" class="headerlink" title="offsetX 和 offsetY"></a>offsetX 和 offsetY</h3><p>相对于事件源左上角(0,0)的坐标</p>
+<h3 id="pageX-和-pageY"><a href="#pageX-和-pageY" class="headerlink" title="pageX 和 pageY"></a>pageX 和 pageY</h3><p>相对于整个网页左上角(0,0)的坐标</p>
+<h3 id="X-和-Y"><a href="#X-和-Y" class="headerlink" title="X 和 Y"></a>X 和 Y</h3><p>本来是IE属性，相对于用css动态定位的最内层包容元素</p>
+<h1 id="js实际宽高运用"><a href="#js实际宽高运用" class="headerlink" title="js实际宽高运用"></a>js实际宽高运用</h1><h2 id="可视区域加载"><a href="#可视区域加载" class="headerlink" title="可视区域加载"></a>可视区域加载</h2><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener">element.getBoundingClientRect()</a>方法返回元素的大小及其相对于视口的位置。<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getClientRects" target="_blank" rel="noopener">element.getClientRects()</a>方法返回一个指向客户端中每一个盒子的边界矩形的矩形集合。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showDiv</span>(<span class="params">showDiv</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> showId = showDiv; 要显示的元素</span><br><span class="line">    <span class="keyword">var</span> clients = <span class="built_in">window</span>.innerHeight || <span class="built_in">document</span>.documentElement.clientHeight || <span class="built_in">document</span>.body.clientHeight; <span class="comment">// 浏览器可视区域高度</span></span><br><span class="line">    <span class="keyword">var</span> divTop = showId.getBoundingClientRect().top; <span class="comment">// 距离浏览器顶部的高度</span></span><br><span class="line">    <span class="keyword">if</span>(divTop &lt;= clients)&#123;</span><br><span class="line">        showId.style.display = <span class="string">'block'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.scroll = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="comment">// 网页滚动时</span></span><br><span class="line">    <span class="keyword">var</span> showDiv = <span class="built_in">document</span>.getElementById(<span class="string">'showId'</span>);</span><br><span class="line">    showDiv(showDiv);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="网页滚动到底部加载"><a href="#网页滚动到底部加载" class="headerlink" title="网页滚动到底部加载"></a>网页滚动到底部加载</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">scrollBottomOrTop</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> clients = <span class="built_in">window</span>.innerHeight || <span class="built_in">document</span>.documentElement.clientHeight || <span class="built_in">document</span>.body.clientHeight; <span class="comment">// 浏览器可视区域高度</span></span><br><span class="line">    <span class="keyword">var</span> scrollTop = <span class="built_in">document</span>.body.scrollTop; <span class="comment">// 滚动条运动高度</span></span><br><span class="line">    <span class="keyword">var</span> wholeHeight = <span class="built_in">document</span>.body.scrollHeight; <span class="comment">// 整个网页高度</span></span><br><span class="line">    <span class="keyword">if</span>(clients + scrollTop &gt;= wholeHeight)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'已经滚动到底部'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(scrollTop == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'已经滚动到顶部'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.onscroll = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    scrollBottomOrTop();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="DIV滚动到底部加载"><a href="#DIV滚动到底部加载" class="headerlink" title="DIV滚动到底部加载"></a>DIV滚动到底部加载</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">divScroll</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> wholeHeight = divId.scrollHeight; <span class="comment">// div整个内容的高度</span></span><br><span class="line">    <span class="keyword">var</span> scrollTop = divId.scrollTop; <span class="comment">// div滚动高度</span></span><br><span class="line">    <span class="keyword">var</span> divHeight = divId.clientHeight; <span class="comment">// div实际高度</span></span><br><span class="line">    <span class="keyword">if</span>(scrollTop + divHeight &gt;= wholeHeight)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'div到底部了'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(scrollTop == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'div到顶了'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">div.onscroll = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> divId = <span class="built_in">document</span>.getElementById(<span class="string">'div1'</span>);</span><br><span class="line">    divScroll(divId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="获取滚动轴的宽度"><a href="#获取滚动轴的宽度" class="headerlink" title="获取滚动轴的宽度"></a>获取滚动轴的宽度</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getScrollBarWidth</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> el = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>),</span><br><span class="line">        styles = &#123;</span><br><span class="line">            width: <span class="string">'100px'</span>,</span><br><span class="line">            height: <span class="string">'100px'</span>,</span><br><span class="line">            overflowY: <span class="string">'scroll'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        i, </span><br><span class="line">        scrollBarWidth;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> styles)&#123;</span><br><span class="line">        el.style[i] = styles[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(el);</span><br><span class="line">    scrollBarWidth = el.offsetWidth - el.clientWidth;</span><br><span class="line">    el.remove();</span><br><span class="line">    <span class="keyword">return</span> scrollBarWidth;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getScrollBarWidth();</span><br></pre></td></tr></table></figure>
+<h1 id="jQuery中的宽和高"><a href="#jQuery中的宽和高" class="headerlink" title="jQuery中的宽和高"></a>jQuery中的宽和高</h1><p>el.width()<br>el.height()<br>元素的content区域</p>
+<p>el.innerWidth()<br>el.innerHeight()<br>元素的content + padding</p>
+<p>el.outerWidth()<br>el.outerHeight()<br>el.outerWidth() 元素的content + padding + border<br>el.outerWidth(true) 元素的content + padding + border + margin</p>
+<p>el.scrollLeft() 相对于水平滚动条左边的距离<br>el.scrollTop() 相对于垂直滚动条上边的距离</p>
+<p>el.offset() 相对于document的当前坐标值（相对于body左上角的left，top的值）</p>
+<p>el.position() 相对于offsetParent的当前坐标值（相对于offsetParent左上角的left，top的值）</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/24/Linux常用命令/" rel="next" title="Linux常用命令">
+                <i class="fa fa-chevron-left"></i> Linux常用命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/08/H5项目常见问题汇总及解决方案/" rel="prev" title="H5项目常见问题汇总及解决方案">
+                H5项目常见问题汇总及解决方案 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="孟禹丞">
+            
+              <p class="site-author-name" itemprop="name">孟禹丞</p>
+              <p class="site-description motion-element" itemprop="description">孟禹丞的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/maxmeng93" title="GitHub &rarr; https://github.com/maxmeng93" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:maxmeng93@gmail.com" title="E-Mail &rarr; mailto:maxmeng93@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.maxmeng.top/" title="https://www.maxmeng.top/" rel="noopener" target="_blank">MaxMeng</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://webstack.maxmeng.top/" title="https://webstack.maxmeng.top/" rel="noopener" target="_blank">前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.maxmeng.top/d3-example/" title="https://blog.maxmeng.top/d3-example/">学习D3系列</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#window-与-document"><span class="nav-number">1.</span> <span class="nav-text">window 与 document</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与window相关的宽高介绍"><span class="nav-number">2.</span> <span class="nav-text">与window相关的宽高介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与document相关的宽高介绍"><span class="nav-number">3.</span> <span class="nav-text">与document相关的宽高介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#client"><span class="nav-number">3.1.</span> <span class="nav-text">client</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#clientWidth-和-clientHeight"><span class="nav-number">3.1.1.</span> <span class="nav-text">clientWidth 和 clientHeight</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-number">3.1.1.1.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clientLeft-和-clientTop"><span class="nav-number">3.1.2.</span> <span class="nav-text">clientLeft 和 clientTop</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#小结-1"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#offset"><span class="nav-number">3.2.</span> <span class="nav-text">offset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#offsetWidth-和-offsetHeight"><span class="nav-number">3.2.1.</span> <span class="nav-text">offsetWidth 和 offsetHeight</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#小结-2"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#offsetLeft-和-offsetTop"><span class="nav-number">3.2.2.</span> <span class="nav-text">offsetLeft 和 offsetTop</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#offsetParent"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">offsetParent</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scroll"><span class="nav-number">3.3.</span> <span class="nav-text">scroll</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scrollWidth-和-scrollHeight"><span class="nav-number">3.3.1.</span> <span class="nav-text">scrollWidth 和 scrollHeight</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#document-body的scrollWidth和scrollHeight"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">document.body的scrollWidth和scrollHeight</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#div的scrollWidth和scrollHeight"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">div的scrollWidth和scrollHeight</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scrollLeft-和-scrollTop"><span class="nav-number">3.3.2.</span> <span class="nav-text">scrollLeft 和 scrollTop</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#documentElement-和-body"><span class="nav-number">3.4.</span> <span class="nav-text">documentElement 和 body</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#兼容性"><span class="nav-number">3.5.</span> <span class="nav-text">兼容性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Event中的5种坐标"><span class="nav-number">3.6.</span> <span class="nav-text">Event中的5种坐标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#clientX-和-clientY"><span class="nav-number">3.6.1.</span> <span class="nav-text">clientX 和 clientY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#screenX-和-screenY"><span class="nav-number">3.6.2.</span> <span class="nav-text">screenX 和 screenY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#offsetX-和-offsetY"><span class="nav-number">3.6.3.</span> <span class="nav-text">offsetX 和 offsetY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pageX-和-pageY"><span class="nav-number">3.6.4.</span> <span class="nav-text">pageX 和 pageY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#X-和-Y"><span class="nav-number">3.6.5.</span> <span class="nav-text">X 和 Y</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#js实际宽高运用"><span class="nav-number">4.</span> <span class="nav-text">js实际宽高运用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#可视区域加载"><span class="nav-number">4.1.</span> <span class="nav-text">可视区域加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网页滚动到底部加载"><span class="nav-number">4.2.</span> <span class="nav-text">网页滚动到底部加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DIV滚动到底部加载"><span class="nav-number">4.3.</span> <span class="nav-text">DIV滚动到底部加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取滚动轴的宽度"><span class="nav-number">4.4.</span> <span class="nav-text">获取滚动轴的宽度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jQuery中的宽和高"><span class="nav-number">5.</span> <span class="nav-text">jQuery中的宽和高</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">晋ICP备16002083号-1 </a>&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟禹丞</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+  <script id="dsq-count-scr" src="https://maxmeng.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.maxmeng.top/2017/02/02/js-jQuery中的宽和高/";
+    this.page.identifier = "2017/02/02/js-jQuery中的宽和高/";
+    this.page.title = 'js/jQuery中的宽和高';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://maxmeng.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+  
+  
+    
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.min.css">
+
+  
+  
+    
+  
+  <script src="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

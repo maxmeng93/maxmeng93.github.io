@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="xMV9Cl1Zwv3kAHKQMofWUQt8Vezt6KB4nhbhtijfzNE">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'IKMKY5PLMN',
+      apiKey: '2402ed27caf7c1e6b5ad4f83ae7ef011',
+      indexName: 'prod_Name',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="JavaScript 最初的一个功能就是分担服务器处理表单的责任，打破处处依赖服务器的局面。但由于表单没有为许多常见的任务提供现成的解决手段，很多开发人员不仅会在验证表单时使用 JavaScript，而且还增强了一些标准表单控件的默认行为。">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="表单脚本">
+<meta property="og:url" content="https://blog.maxmeng.top/2016/11/17/form-script/index.html">
+<meta property="og:site_name" content="MaxMeng">
+<meta property="og:description" content="JavaScript 最初的一个功能就是分担服务器处理表单的责任，打破处处依赖服务器的局面。但由于表单没有为许多常见的任务提供现成的解决手段，很多开发人员不仅会在验证表单时使用 JavaScript，而且还增强了一些标准表单控件的默认行为。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-26T09:41:34.026Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="表单脚本">
+<meta name="twitter:description" content="JavaScript 最初的一个功能就是分担服务器处理表单的责任，打破处处依赖服务器的局面。但由于表单没有为许多常见的任务提供现成的解决手段，很多开发人员不仅会在验证表单时使用 JavaScript，而且还增强了一些标准表单控件的默认行为。">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.maxmeng.top/2016/11/17/form-script/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>表单脚本 | MaxMeng</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-75583813-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-75583813-2');
+  </script>
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0d2b253b47b87bcab1e0f46e8f7e8bce";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MaxMeng</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">前端博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.maxmeng.top/2016/11/17/form-script/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="孟禹丞">
+      <meta itemprop="description" content="孟禹丞的个人博客">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MaxMeng">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">表单脚本
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-11-17 10:30:05" itemprop="dateCreated datePublished" datetime="2016-11-17T10:30:05+08:00">2016-11-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-26 17:41:34" itemprop="dateModified" datetime="2020-04-26T17:41:34+08:00">2020-04-26</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <a href="/2016/11/17/form-script/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/17/form-script/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>JavaScript 最初的一个功能就是分担服务器处理表单的责任，打破处处依赖服务器的局面。但由于表单没有为许多常见的任务提供现成的解决手段，很多开发人员不仅会在验证表单时使用 JavaScript，而且还增强了一些标准表单控件的默认行为。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="表单基础知识"><a href="#表单基础知识" class="headerlink" title="表单基础知识"></a>表单基础知识</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取表单</span></span><br><span class="line"><span class="keyword">var</span> form = <span class="built_in">document</span>.getElementById(<span class="string">'form1'</span>);</span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="keyword">var</span> form = <span class="built_in">document</span>.forms[<span class="number">0</span>];<span class="comment">//获取页面中第一个表单</span></span><br><span class="line"><span class="keyword">var</span> form = <span class="built_in">document</span>.forms[<span class="string">'form2'</span>];<span class="comment">//获取页面中name='form2'的表单</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//提交表单</span></span><br><span class="line"><span class="comment">//在相应表单拥有焦点的情况下，按回车键可以触发 submit 事件。</span></span><br><span class="line">form.submit();<span class="comment">//调用此方法不会触发 shubmit 事件，所以需要先验证表单。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//表单重置</span></span><br><span class="line">form.reset();<span class="comment">//调用此方法会触发 reset 事件。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//表单字段</span></span><br><span class="line"><span class="keyword">var</span> field1 = form.elements[<span class="number">0</span>];<span class="comment">//表单的第一个字段</span></span><br><span class="line"><span class="keyword">var</span> field2 = form.elements[<span class="string">'textbox1'</span>];<span class="comment">//name='textbox1'的表单字段</span></span><br><span class="line"><span class="keyword">var</span> len = form.elements.length;<span class="comment">//字段数量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//共有表单字段属性</span></span><br><span class="line">disabled<span class="comment">//布尔值，表单是否被禁用。为避免多次提交表单，可以表单提交一次后禁用提交按钮</span></span><br><span class="line">form<span class="comment">//指向当前字段所属表单的指针，只读</span></span><br><span class="line">name<span class="comment">//表单的名称</span></span><br><span class="line">readOnly<span class="comment">//当前字段是否只读</span></span><br><span class="line">tabIndex<span class="comment">//tab切换序号</span></span><br><span class="line">type<span class="comment">//类型</span></span><br><span class="line">value<span class="comment">//当前字段要提交给服务器的值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//共有表单字段方法</span></span><br><span class="line">focus();<span class="comment">//获取焦点</span></span><br><span class="line">blur();<span class="comment">//移走焦点</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//共有表单字段事件</span></span><br><span class="line">blur;<span class="comment">//失去焦点时触发</span></span><br><span class="line">change<span class="comment">//对于input和textarea元素，失去焦点且value改变时触发；对于select元素，改变选项时触发。</span></span><br><span class="line">focus<span class="comment">//获取焦点时触发</span></span><br></pre></td></tr></table></figure>
+<h2 id="文本框脚本"><a href="#文本框脚本" class="headerlink" title="文本框脚本"></a>文本框脚本</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">input<span class="comment">//type=text; 通过size设置可以显示的字符数；设置maxlength设置最大字符数</span></span><br><span class="line">textarea<span class="comment">//rows行数，cols列数</span></span><br></pre></td></tr></table></figure>
+<h3 id="选择文本"><a href="#选择文本" class="headerlink" title="选择文本"></a>选择文本</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">textarea.select();<span class="comment">//获取焦点并选中所有文本。在有默认文本时，用户不必一个字一个字删</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//选择部分文本</span></span><br><span class="line"><span class="keyword">var</span> textarea.value = <span class="string">'Hello World!'</span></span><br><span class="line">textarea.setSelectionRange(<span class="number">0</span>, <span class="number">3</span>);<span class="comment">//'Hel' , 要看到选中的文本，必须在这个方法前先获取焦点。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//选中文本时会触发select事件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//取得选择的文本</span></span><br><span class="line">selectionStart<span class="comment">//选择文本的开头偏移量</span></span><br><span class="line">selectionEnd<span class="comment">//选择文本的结尾偏移量</span></span><br></pre></td></tr></table></figure>
+<h3 id="过滤输入"><a href="#过滤输入" class="headerlink" title="过滤输入"></a>过滤输入</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//屏蔽字符</span></span><br><span class="line"><span class="comment">//监听文本框的 keypress 事件。检测 keypress 事件的对应编码，再决定如何响应。</span></span><br></pre></td></tr></table></figure>
+<h3 id="自动切换焦点"><a href="#自动切换焦点" class="headerlink" title="自动切换焦点"></a>自动切换焦点</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过监听文本框的 keyup 事件，当文本框输入的字符与 maxlength 相等时，找到下一个文本框，并将焦点切换到此文本框上。</span></span><br></pre></td></tr></table></figure>
+<h3 id="HTML5-约束验证API"><a href="#HTML5-约束验证API" class="headerlink" title="HTML5 约束验证API"></a>HTML5 约束验证API</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//必填字段</span></span><br><span class="line">required</span><br><span class="line"></span><br><span class="line"><span class="comment">//其他输入类型</span></span><br><span class="line">type = <span class="string">'email | url | number | range | datetime | datetime-local | date | month | week | time'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//数值范围</span></span><br><span class="line">min = <span class="string">''</span>;<span class="comment">//最小值</span></span><br><span class="line">max = <span class="string">''</span>;<span class="comment">//最大值</span></span><br><span class="line">step = <span class="string">''</span>;<span class="comment">//步长</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//修改当前input的数值</span></span><br><span class="line">input.setpUp();<span class="comment">//+1</span></span><br><span class="line">input.stepUp(<span class="number">5</span>);<span class="comment">//+5</span></span><br><span class="line">input.stepDown();<span class="comment">//-1</span></span><br><span class="line">input.stepDown(<span class="number">10</span>);<span class="comment">//-10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//输入模式</span></span><br><span class="line">pattern = <span class="string">'\d+'</span>;<span class="comment">//数值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//检测有效性</span></span><br><span class="line">checkValidity();<span class="comment">//根据前面的约束验证输入是否有效</span></span><br><span class="line"><span class="built_in">document</span>.forms[<span class="number">0</span>].element[<span class="number">0</span>].checkValidity();<span class="comment">//第一个表单的第一个字段输入是否有效</span></span><br><span class="line"><span class="built_in">document</span>.forms[<span class="number">0</span>].checkValidity();<span class="comment">//第一个表单是否有效</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//validity属性</span></span><br><span class="line">customError     <span class="comment">//设置了 setCustomValidity()，则返回true</span></span><br><span class="line">patternMismatch <span class="comment">//与指定的 pattern 不符，则返回true</span></span><br><span class="line">rangeOverflow   <span class="comment">//如果值比max值大，返回true</span></span><br><span class="line">rangeUnderflow  <span class="comment">//如果值比min值小，返回true</span></span><br><span class="line">stepMisMatch    <span class="comment">//步长不合理，返回true</span></span><br><span class="line">tooLong         <span class="comment">//值的长度超过了maxlength，返回true</span></span><br><span class="line">typeMismatch    <span class="comment">//值不是'mail' 或 'url'，要求的格式，返回true</span></span><br><span class="line">valid           <span class="comment">//如果这里的其他值都返回false，则返回true</span></span><br><span class="line">valueMissing    <span class="comment">//如果标注为required的字段没有值，返回true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//禁用验证</span></span><br><span class="line">novalidate      <span class="comment">//为form设置此值，可以不验证表单</span></span><br><span class="line">formnovalidate  <span class="comment">//为form表单的提交按钮设置此值，可以不验证表单</span></span><br></pre></td></tr></table></figure>
+<h2 id="选择框脚本"><a href="#选择框脚本" class="headerlink" title="选择框脚本"></a>选择框脚本</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//select元素(HTMLSelectElement)拥有的属性</span></span><br><span class="line">add(newOption, relOption); <span class="comment">//向控件中插入新的&lt;option&gt;，位置在 relOption 前。</span></span><br><span class="line">multiple                   <span class="comment">//布尔值，是否允许多选</span></span><br><span class="line">options                    <span class="comment">//控件中所有 option 元素的 HTMLCollection</span></span><br><span class="line">remove(index);             <span class="comment">//移除给定项位置的选项</span></span><br><span class="line">selectedIndex;             <span class="comment">//基于0的选中项索引，没有选中项，则为 -1 。</span></span><br><span class="line">size                       <span class="comment">//选中框可见行数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//option元素(HTMLOptionElement)拥有的属性</span></span><br><span class="line">index     <span class="comment">//当前选项在 options 集合中的索引</span></span><br><span class="line">label     <span class="comment">//当前选项的标签，相当于HTML中的 label 特性</span></span><br><span class="line">selected  <span class="comment">//是否被选中</span></span><br><span class="line">text      <span class="comment">//选项的文本</span></span><br><span class="line">value     <span class="comment">//选项的值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//选择选项</span></span><br><span class="line"><span class="keyword">var</span> selectedOption = selectbox.options[selectbox.selectedIndex];<span class="comment">//适合单选</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//对于多选，可以遍历所有 option 的 selected 属性。</span></span><br><span class="line"><span class="keyword">var</span> arr = [];</span><br><span class="line"><span class="keyword">var</span> option = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;selectbox.options.length; i++)&#123;</span><br><span class="line">    option = selectbox.options[i];</span><br><span class="line">    <span class="keyword">if</span>(option.selected)&#123;</span><br><span class="line">        arr.push(option);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">arr;<span class="comment">//选中的项</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//添加选项</span></span><br><span class="line"><span class="keyword">var</span> newOption = <span class="keyword">new</span> Option(<span class="string">'option text'</span>, <span class="string">'option value'</span>);</span><br><span class="line">selectbox.add(newOption, <span class="literal">undefined</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//移除选项 </span></span><br><span class="line">selectbox.remove(<span class="number">0</span>);<span class="comment">//移除第一个</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//移动和重排选项</span></span><br><span class="line"><span class="comment">//可以使用DOM方法中的 insertBefore() 和 appendChild();</span></span><br></pre></td></tr></table></figure>
+<h2 id="表单序列化"><a href="#表单序列化" class="headerlink" title="表单序列化"></a>表单序列化</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">serialize</span>(<span class="params">form</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> parts = [],</span><br><span class="line">    field = <span class="literal">null</span>,</span><br><span class="line">    i,</span><br><span class="line">    len,</span><br><span class="line">    j,</span><br><span class="line">    optLen,</span><br><span class="line">    option,</span><br><span class="line">    optValue;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>, len = form.elements.length; i &lt; len; i++)&#123;</span><br><span class="line">        field = form.elements[i];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span>(field.type)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'select-one'</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'select-multiple'</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span>(field.name.length)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(j = <span class="number">0</span>; optLen = field.options.length; j &lt; optLen; j++)&#123;</span><br><span class="line">                        option = field.options[j];</span><br><span class="line">                        <span class="keyword">if</span>(option.selected)&#123;</span><br><span class="line">                            optValue = <span class="string">''</span>;</span><br><span class="line">                            <span class="keyword">if</span>(option.hasAttribute)&#123;</span><br><span class="line">                                optValue = (option.hasAttribute(<span class="string">'value'</span>) ? option.value : option.text);</span><br><span class="line">                            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                optValue = (option.attributes[<span class="string">'value'</span>].specified ? option.value : option.text);</span><br><span class="line">                            &#125;</span><br><span class="line">                            parts.push(<span class="built_in">encodeURIComponent</span>(field.name) + <span class="string">'='</span> + <span class="built_in">encodeURIComponent</span>(optValue));</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> <span class="literal">undefined</span>: <span class="comment">//字段集</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'file'</span>:    <span class="comment">//文件输入</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'submit'</span>:  <span class="comment">//提交按钮</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'reset'</span>:   <span class="comment">//重置按钮</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'button'</span>:  <span class="comment">//自定义按钮</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'radio'</span>:   <span class="comment">//单选按钮</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'checkbox'</span>:<span class="comment">//复选框</span></span><br><span class="line">                <span class="keyword">if</span>(!field.checked)&#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//执行默认操作</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="comment">//不包含没有名字的表单字段</span></span><br><span class="line">                <span class="keyword">if</span>(field.name.length)&#123;</span><br><span class="line">                    parts.push(<span class="built_in">encodeURIComponent</span>(field.name) + <span class="string">'='</span> + <span class="built_in">encodeURIComponent</span>(field.value));</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> parts.join(<span class="string">'&amp;'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="富文本编辑"><a href="#富文本编辑" class="headerlink" title="富文本编辑"></a>富文本编辑</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/16/DOM2-and-DOM3/" rel="next" title="DOM2 和 DOM3">
+                <i class="fa fa-chevron-left"></i> DOM2 和 DOM3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/17/event/" rel="prev" title="事件">
+                事件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="孟禹丞">
+            
+              <p class="site-author-name" itemprop="name">孟禹丞</p>
+              <p class="site-description motion-element" itemprop="description">孟禹丞的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/maxmeng93" title="GitHub &rarr; https://github.com/maxmeng93" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:maxmeng93@gmail.com" title="E-Mail &rarr; mailto:maxmeng93@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.maxmeng.top/" title="https://www.maxmeng.top/" rel="noopener" target="_blank">MaxMeng</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://webstack.maxmeng.top/" title="https://webstack.maxmeng.top/" rel="noopener" target="_blank">前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.maxmeng.top/d3-example/" title="https://blog.maxmeng.top/d3-example/">学习D3系列</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#表单基础知识"><span class="nav-number">1.</span> <span class="nav-text">表单基础知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文本框脚本"><span class="nav-number">2.</span> <span class="nav-text">文本框脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择文本"><span class="nav-number">2.1.</span> <span class="nav-text">选择文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤输入"><span class="nav-number">2.2.</span> <span class="nav-text">过滤输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动切换焦点"><span class="nav-number">2.3.</span> <span class="nav-text">自动切换焦点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML5-约束验证API"><span class="nav-number">2.4.</span> <span class="nav-text">HTML5 约束验证API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择框脚本"><span class="nav-number">3.</span> <span class="nav-text">选择框脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表单序列化"><span class="nav-number">4.</span> <span class="nav-text">表单序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#富文本编辑"><span class="nav-number">5.</span> <span class="nav-text">富文本编辑</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">晋ICP备16002083号-1 </a>&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟禹丞</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+  <script id="dsq-count-scr" src="https://maxmeng.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.maxmeng.top/2016/11/17/form-script/";
+    this.page.identifier = "2016/11/17/form-script/";
+    this.page.title = '表单脚本';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://maxmeng.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+  
+  
+    
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.min.css">
+
+  
+  
+    
+  
+  <script src="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

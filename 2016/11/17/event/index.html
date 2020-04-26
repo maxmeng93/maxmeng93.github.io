@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="xMV9Cl1Zwv3kAHKQMofWUQt8Vezt6KB4nhbhtijfzNE">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'IKMKY5PLMN',
+      apiKey: '2402ed27caf7c1e6b5ad4f83ae7ef011',
+      indexName: 'prod_Name',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="JavaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文档或浏览器窗口中发生的一些特定的交互瞬间。可以使用侦听器(或处理程序)来预订事件，以便事件发生时执行相应的代码。">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件">
+<meta property="og:url" content="https://blog.maxmeng.top/2016/11/17/event/index.html">
+<meta property="og:site_name" content="MaxMeng">
+<meta property="og:description" content="JavaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文档或浏览器窗口中发生的一些特定的交互瞬间。可以使用侦听器(或处理程序)来预订事件，以便事件发生时执行相应的代码。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/005VWk7Ogw1f9v5wrt5qhj31kw19r7ri.jpg">
+<meta property="og:updated_time" content="2020-04-26T09:41:34.026Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="事件">
+<meta name="twitter:description" content="JavaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文档或浏览器窗口中发生的一些特定的交互瞬间。可以使用侦听器(或处理程序)来预订事件，以便事件发生时执行相应的代码。">
+<meta name="twitter:image" content="http://ww2.sinaimg.cn/large/005VWk7Ogw1f9v5wrt5qhj31kw19r7ri.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.maxmeng.top/2016/11/17/event/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>事件 | MaxMeng</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-75583813-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-75583813-2');
+  </script>
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0d2b253b47b87bcab1e0f46e8f7e8bce";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MaxMeng</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">前端博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.maxmeng.top/2016/11/17/event/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="孟禹丞">
+      <meta itemprop="description" content="孟禹丞的个人博客">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MaxMeng">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">事件
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-11-17 15:31:17" itemprop="dateCreated datePublished" datetime="2016-11-17T15:31:17+08:00">2016-11-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-26 17:41:34" itemprop="dateModified" datetime="2020-04-26T17:41:34+08:00">2020-04-26</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <a href="/2016/11/17/event/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/17/event/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>JavaScript 与 HTML 之间的交互是通过<strong>事件</strong>实现的。事件，就是文档或浏览器窗口中发生的一些特定的交互瞬间。可以使用<strong>侦听器</strong>(或处理程序)来预订事件，以便事件发生时执行相应的代码。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h2><p><img src="http://ww2.sinaimg.cn/large/005VWk7Ogw1f9v5wrt5qhj31kw19r7ri.jpg" alt="事件"></p>
+<h3 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h3><p>IE 的事件流叫做<strong>事件冒泡</strong>，即事件开始由最具体的元素接收，然后逐级向上传播到较为不具体的节点（文档）。所有现代浏览器都支持事件冒泡。</p>
+<h3 id="事件捕获"><a href="#事件捕获" class="headerlink" title="事件捕获"></a>事件捕获</h3><p>事件捕获的思想是不太具体的节点应该更早接收事件。而最具体的节点应该最后接收到事件。</p>
+<h3 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h3><p>“DOM2级事件”规定的事件流包括三个阶段：事件捕获阶段、处于目标阶段和事件冒泡阶段。首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接受度额事件。最后一个阶段是冒泡阶段，可以在这个阶段对事件做出响应。</p>
+<h2 id="事件处理程序"><a href="#事件处理程序" class="headerlink" title="事件处理程序"></a>事件处理程序</h2><p>事件就是用户或浏览器自身执行的某种动作。而响应某个事件的函数就叫做<strong>事件处理程序</strong>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HTML 事件处理程序</span></span><br><span class="line"><span class="comment">// &lt;input type="button" value="Click Me" onclick="alert('clicked')"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//DOM0 级事件处理程序</span></span><br><span class="line">div.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; alert(<span class="string">'clicked'</span>) &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//DOM2 级事件处理程序</span></span><br><span class="line"><span class="comment">//接收3个参数：要处理的事件名、作为事件处理程序的函数和一个布尔值。最后一个参数为true，捕获阶段执行；反之，在冒泡阶段执行。</span></span><br><span class="line">div.addEventListener();</span><br><span class="line">div.removeEventListener();</span><br><span class="line"></span><br><span class="line"><span class="comment">//IE事件处理程序</span></span><br><span class="line"><span class="comment">//接收2个参数：事件处理程序名称与事件处理程序函数。只支持冒泡。第一个参数需要带'on'，如'onclick';</span></span><br><span class="line">div.attachEvent();</span><br><span class="line">div.detachEvent();</span><br></pre></td></tr></table></figure>
+<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>在触发 DOM 上的某个事件时，会产生一个事件对象 event，这个对象中包含着所有与事件有关的信息。包括导致事件的元素、事件的类型以及其他与特定事件相关的信息。</p>
+<p>下面是一些事件对象的属性和方法：</p>
+<table>
+<thead>
+<tr>
+<th>属性/方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bubbles</td>
+<td>表明事件是否冒泡</td>
+</tr>
+<tr>
+<td>cancelable</td>
+<td>是否可以取消事件默认行为</td>
+</tr>
+<tr>
+<td>currentTarget</td>
+<td>事件处理程序当前正在处理事件的那个元素</td>
+</tr>
+<tr>
+<td>defaultPrevented</td>
+<td>值为true时表明调用了preventDefault()</td>
+</tr>
+<tr>
+<td>detail</td>
+<td>与事件相关的细节信息</td>
+</tr>
+<tr>
+<td>eventPhase</td>
+<td>事件的阶段，1捕获，2目标，3冒泡</td>
+</tr>
+<tr>
+<td>preventDefault()</td>
+<td>取消事件的默认行为</td>
+</tr>
+<tr>
+<td>stopImmediatePropagation()</td>
+<td>取消事件的进一步捕获和冒泡，同时阻止任何事件处理程序被调用</td>
+</tr>
+<tr>
+<td>stopPropagation</td>
+<td>取消事件的进一步捕获和冒泡</td>
+</tr>
+<tr>
+<td>target</td>
+<td>事件目标</td>
+</tr>
+<tr>
+<td>trusted</td>
+<td>为true表示事件是浏览器生成的</td>
+</tr>
+<tr>
+<td>type</td>
+<td>被触发的事件类型</td>
+</tr>
+<tr>
+<td>view</td>
+<td>与事件有关的抽象视图</td>
+</tr>
+</tbody>
+</table>
+<p>在事件处理程序内部，对象 this 始终等于 currentTarget 的值，而 target 则只包含事件的实际目标。如果直接将事件处理程序指定给了目标元素，则 this、currentTarget 和 target 包含相同的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">event.preventDefault();  <span class="comment">//阻止浏览器默认行为</span></span><br><span class="line">event.stopPropagation(); <span class="comment">//阻止冒泡</span></span><br></pre></td></tr></table></figure>
+<p>IE 中的事件对象</p>
+<table>
+<thead>
+<tr>
+<th>属性/方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cancelBubble</td>
+<td>默认为false，设为true就可以取消事件冒泡</td>
+</tr>
+<tr>
+<td>srcElement</td>
+<td>事件的目标（与DOM中的target相同）</td>
+</tr>
+<tr>
+<td>type</td>
+<td>被触发的事件类型</td>
+</tr>
+</tbody>
+</table>
+<h2 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h2><p>不同的事件类型具有不同的信息，而“DOM3级事件”规定了以下几类事件：</p>
+<ul>
+<li>UI事件，当用户与页面上的元素交互时触发</li>
+<li>焦点事件</li>
+<li>滚轮事件</li>
+<li>文本事件</li>
+<li>键盘事件</li>
+<li>合成事件，当为输入法编辑器输入字符时触发</li>
+<li>变动事件，当底层DOM结构发生变化时触发</li>
+</ul>
+<h3 id="UI事件"><a href="#UI事件" class="headerlink" title="UI事件"></a>UI事件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">load   <span class="comment">//页面完全加载后触发</span></span><br><span class="line">unload <span class="comment">//文档被完全卸载后触发</span></span><br><span class="line">resize <span class="comment">//浏览器窗口尺寸调成时触发</span></span><br><span class="line">scroll <span class="comment">//页面滚动时触发</span></span><br></pre></td></tr></table></figure>
+<h3 id="焦点事件"><a href="#焦点事件" class="headerlink" title="焦点事件"></a>焦点事件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blur  <span class="comment">//元素失去焦点时触发</span></span><br><span class="line">focus <span class="comment">//元素获取焦点时触发</span></span><br></pre></td></tr></table></figure>
+<h3 id="鼠标和滚轮事件"><a href="#鼠标和滚轮事件" class="headerlink" title="鼠标和滚轮事件"></a>鼠标和滚轮事件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">click      <span class="comment">//单击鼠标主键</span></span><br><span class="line">dblclick   <span class="comment">//双击鼠标主键</span></span><br><span class="line">mousedown  <span class="comment">//按下鼠标任意键</span></span><br><span class="line">mouseenter <span class="comment">//鼠标移入(子元素内不触发)</span></span><br><span class="line">mouseleave <span class="comment">//鼠标移出(子元素内不触发)</span></span><br><span class="line">mousemove  <span class="comment">//在元素内移动，重复触发</span></span><br><span class="line">mouseout   <span class="comment">//鼠标移出</span></span><br><span class="line">mouseover  <span class="comment">//鼠标移入</span></span><br><span class="line">mouseup    <span class="comment">//释放鼠标时</span></span><br><span class="line"></span><br><span class="line">DOMMouseScroll  <span class="comment">//火狐鼠标滚轮事件</span></span><br><span class="line">mousewheel      <span class="comment">//IE 和 chrome 滚轮事件</span></span><br><span class="line"></span><br><span class="line">event.clientX   <span class="comment">//事件发生时，鼠标指针在视口中的水平距离</span></span><br><span class="line">event.clientY   <span class="comment">//事件发生时，鼠标指针在视口中的垂直距离</span></span><br><span class="line"></span><br><span class="line">event.pageX     <span class="comment">//事件发生时，鼠标指针在页面中的水平距离</span></span><br><span class="line">event.pageY     <span class="comment">//事件发生时，鼠标指针在页面中的垂直距离</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.scrollLeft || <span class="built_in">document</span>.documentElement.scrollLeft  <span class="comment">//页面左右滚动距离</span></span><br><span class="line"><span class="built_in">document</span>.body.scrollTop  || <span class="built_in">document</span>.documentElement.scrollTop   <span class="comment">//页面上下滚动距离</span></span><br><span class="line"></span><br><span class="line">screenX     <span class="comment">//鼠标指针在电脑屏幕中的水平距离</span></span><br><span class="line">screenY     <span class="comment">//鼠标指针在电脑屏幕中的垂直距离</span></span><br></pre></td></tr></table></figure>
+<h3 id="修改键"><a href="#修改键" class="headerlink" title="修改键"></a>修改键</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">e.shiftKey  <span class="comment">//shift  键被按下时，值为 true。</span></span><br><span class="line">e.ctrlKey   <span class="comment">//ctrl   键被按下时，值为 true。</span></span><br><span class="line">e.altKey    <span class="comment">//alt    键被按下时，值为 true。</span></span><br><span class="line">e.metaKey   <span class="comment">//window 键被按下时，值为 true。</span></span><br></pre></td></tr></table></figure>
+<h3 id="键盘与文本事件"><a href="#键盘与文本事件" class="headerlink" title="键盘与文本事件"></a>键盘与文本事件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">keydown     <span class="comment">//按下键盘任意键触发，按住不放会重复触发</span></span><br><span class="line">keypress    <span class="comment">//按下键盘字符键触发，按住不放会重复触发</span></span><br><span class="line">keyup       <span class="comment">//释放键盘的键时触发</span></span><br><span class="line"></span><br><span class="line">textInput   <span class="comment">//文本事件</span></span><br><span class="line"></span><br><span class="line">e.keyCode   <span class="comment">//键码</span></span><br><span class="line">e.charCode  <span class="comment">//字符编码，为所代表字符的 ASCII 编码。</span></span><br></pre></td></tr></table></figure>
+<h3 id="HTML5-事件"><a href="#HTML5-事件" class="headerlink" title="HTML5 事件"></a>HTML5 事件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">contextmenu          <span class="comment">//为 window 添加事件。单击鼠标右键调出上下文菜单。可以通过 e.preventDefault() 阻止默认事件。</span></span><br><span class="line">beforeunload         <span class="comment">//为 window 添加事件。页面关闭前触发。为显示弹出对话框，必须将 e.returnValue 的值设为提示文字，同时将提示文字作为函数的值返回。</span></span><br><span class="line">DOMContentLoaded     <span class="comment">//为 window 或 document 添加事件。形成完整 DOM 树之后就触发。不理会图像、javascript、css或其他资源是否下载完毕。</span></span><br><span class="line">readystatechange     <span class="comment">//为 document 添加事件。事件提供与文档或元素加载状态有关的信息。</span></span><br><span class="line">pageshow &amp; pagehide  <span class="comment">//为 window 添加事件</span></span><br><span class="line">hashchange           <span class="comment">//为 window 添加事件，此时的 event 对象包含额外的属性：oldURL 和 newURL（有兼容问题，可使用 location 对象代替）。</span></span><br></pre></td></tr></table></figure>
+<h3 id="设备事件"><a href="#设备事件" class="headerlink" title="设备事件"></a>设备事件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">orientationchange    <span class="comment">//屏幕旋转事件（window.orientation）ios 设备支持</span></span><br><span class="line">MozOrientation       <span class="comment">//设备方向改变时触发（火狐支持）</span></span><br><span class="line">deviceorientation    <span class="comment">//</span></span><br><span class="line">devicemotion         <span class="comment">//</span></span><br></pre></td></tr></table></figure>
+<h3 id="触摸与手势事件"><a href="#触摸与手势事件" class="headerlink" title="触摸与手势事件"></a>触摸与手势事件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">touchstart     <span class="comment">//触摸屏幕时触发</span></span><br><span class="line">touchmove      <span class="comment">//在屏幕上滑动时触发</span></span><br><span class="line">touchend       <span class="comment">//从屏幕上移开时触发</span></span><br><span class="line"><span class="comment">//触摸事件还包含下列三个用于跟踪触摸的属性：</span></span><br><span class="line">touches        <span class="comment">//表示当前跟踪触发操作的 Touch 对象的数组</span></span><br><span class="line">targetTouchs   <span class="comment">//特定于事件对象的 Touch 对象的数组</span></span><br><span class="line">changeTouches  <span class="comment">//上次触摸一来发生了什么改变的 Touch 对象数组</span></span><br><span class="line"><span class="comment">//每个 Touch 对象包含下面这些属性</span></span><br><span class="line">clientX</span><br><span class="line">clientY</span><br><span class="line">pageX</span><br><span class="line">pageY</span><br><span class="line">screenX</span><br><span class="line">screenY</span><br><span class="line">target       <span class="comment">//触摸的 DOM 节点目标</span></span><br><span class="line">identifier   <span class="comment">//标识触摸的唯一 ID</span></span><br></pre></td></tr></table></figure>
+<h2 id="内存和性能"><a href="#内存和性能" class="headerlink" title="内存和性能"></a>内存和性能</h2><h3 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h3><p>事件委托利用了事件冒泡，只指定一个事件处理程序，就可以管理某一类的所有事件。</p>
+<h3 id="移出事件处理程序"><a href="#移出事件处理程序" class="headerlink" title="移出事件处理程序"></a>移出事件处理程序</h3><p>每当将事件处理程序指定给元素时，运行中的浏览器代码于支持页面交互的 JavaScript 代码之间就会建立一个连接。这种连接越多，页面执行越慢，所以可以在不需要的时候移出事件处理程序。</p>
+<h2 id="模拟事件"><a href="#模拟事件" class="headerlink" title="模拟事件"></a>模拟事件</h2><p>可以在 document 对象上使用 createEvent() 方法创建 event 对象。这个方法接收一个参数，即表示要创建的事件类型的字符串。这个字符串可以是以下之一：</p>
+<ul>
+<li>UIEvents: 一般化的 UI 事件（DOM3 中为 UIEvent）</li>
+<li>MouseEvents: 一般化的鼠标事件（DOM3 中为 MouseEvent）</li>
+<li>MutationEvents: 一般化的 DOM 变动事件（DOM3 中为 MutationEvent）</li>
+<li>HTMLEvents: 一般化的 HTML 事件</li>
+</ul>
+<h3 id="模拟鼠标事件"><a href="#模拟鼠标事件" class="headerlink" title="模拟鼠标事件"></a>模拟鼠标事件</h3><p>初始化事件需要传入下列参数：</p>
+<p>type(字符串)：要触发的事件类型，例如‘click’。<br>bubbles(布尔值)：表示事件是否应该冒泡，针对鼠标事件模拟，该值应该被设置为true。<br>cancelable(布尔值)：表示该事件是否能够被取消，针对鼠标事件模拟，该值应该被设置为true。<br>view 抽象视图：事件授予的视图，这个值几乎全是document.defaultView.<br>detail(整数)：附加的事件信息这个初始化时一般应该默认为0。<br>screenX(整数) ：事件距离屏幕左边的X坐标<br>screenY(整数) ：事件距离屏幕上边的y坐标<br>clientX(整数) ：事件距离可视区域左边的X坐标<br>clientY(整数) ：事件距离可视区域上边的y坐标<br>ctrlKey(布尔值)：代表ctrol键是否被按下，默认为false。<br>altKey(布尔值)：代表alt键是否被按下，默认为false。<br>shiftKey(布尔值)：代表shif键是否被按下，默认为false。<br>metaKey(布尔值)：代表meta key 是否被按下，默认是false。<br>button(整数)：表示被按下的鼠标键，默认是零.<br>relatedTarget(对象)：事件的关联对象.只有在模拟mouseover 和 mouseout时用到。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getEventById(<span class="string">'myBtn'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建事件对象</span></span><br><span class="line"><span class="keyword">var</span> event = <span class="built_in">document</span>.createEvent(<span class="string">'MouseEvents'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化事件对象</span></span><br><span class="line">event.initMouserEvent(<span class="string">'click'</span>, <span class="literal">true</span>, <span class="literal">true</span>, <span class="built_in">document</span>.defaultView, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//触发事件</span></span><br><span class="line">btn.dispatchEvent(event);</span><br></pre></td></tr></table></figure>
+<h3 id="模拟键盘事件"><a href="#模拟键盘事件" class="headerlink" title="模拟键盘事件"></a>模拟键盘事件</h3><p>初始化事件需要传入下列参数：</p>
+<ul>
+<li>type(字符串)：表示要触发的事件类型，如’keydown’</li>
+<li>bubbles(布尔值)：表示事件是否应该冒泡</li>
+<li>cancelable(布尔值)：表示事件是否可以取消</li>
+<li>view：与事件关联的视图</li>
+<li>key(布尔值)：表示按下键的键码</li>
+<li>location(整数)：表示按下了哪里的键</li>
+<li>modifiers(字符串)：空格分割的修改键列表，如’shift’</li>
+<li>repeat(整数)：在一行中按了这个键多少次</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> textBox = <span class="built_in">document</span>.getEventById(<span class="string">'myTextBox'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建事件对象</span></span><br><span class="line"><span class="keyword">var</span> event = <span class="built_in">document</span>.createEvent(<span class="string">'keyboardEvent'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化事件对象</span></span><br><span class="line">event.initMouserEvent(<span class="string">'keydown'</span>, <span class="literal">true</span>, <span class="literal">true</span>, <span class="built_in">document</span>.defaultView, <span class="string">'a'</span>, <span class="number">0</span>, <span class="string">'shift'</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//触发事件</span></span><br><span class="line">textBox.dispatchEvent(event);</span><br></pre></td></tr></table></figure>
+<h3 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//initCustomEvent()方法接收四个参数:</span></span><br><span class="line">    <span class="comment">//type(字符串): 触发的事件类型，例如‘keydown’</span></span><br><span class="line">    <span class="comment">//bubbles(布尔值): 事件是否应该冒泡</span></span><br><span class="line">    <span class="comment">//cancelable(布尔值): 事件是否可以取消</span></span><br><span class="line">    <span class="comment">//detail(对象): 任意只，保存在 event 对象的 detail 属性中</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> event = <span class="built_in">document</span>.createEvent(<span class="string">'CustomEvent'</span>);</span><br><span class="line">event.initCustomEvent(<span class="string">'myevent'</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="string">'Hello World'</span>);</span><br><span class="line">div.dispatchEvent(event);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/17/form-script/" rel="next" title="表单脚本">
+                <i class="fa fa-chevron-left"></i> 表单脚本
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/21/function-expression/" rel="prev" title="函数表达式">
+                函数表达式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="孟禹丞">
+            
+              <p class="site-author-name" itemprop="name">孟禹丞</p>
+              <p class="site-description motion-element" itemprop="description">孟禹丞的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/maxmeng93" title="GitHub &rarr; https://github.com/maxmeng93" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:maxmeng93@gmail.com" title="E-Mail &rarr; mailto:maxmeng93@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.maxmeng.top/" title="https://www.maxmeng.top/" rel="noopener" target="_blank">MaxMeng</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://webstack.maxmeng.top/" title="https://webstack.maxmeng.top/" rel="noopener" target="_blank">前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.maxmeng.top/d3-example/" title="https://blog.maxmeng.top/d3-example/">学习D3系列</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件流"><span class="nav-number">1.</span> <span class="nav-text">事件流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件冒泡"><span class="nav-number">1.1.</span> <span class="nav-text">事件冒泡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件捕获"><span class="nav-number">1.2.</span> <span class="nav-text">事件捕获</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM事件流"><span class="nav-number">1.3.</span> <span class="nav-text">DOM事件流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件处理程序"><span class="nav-number">2.</span> <span class="nav-text">事件处理程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件对象"><span class="nav-number">3.</span> <span class="nav-text">事件对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件类型"><span class="nav-number">4.</span> <span class="nav-text">事件类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UI事件"><span class="nav-number">4.1.</span> <span class="nav-text">UI事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#焦点事件"><span class="nav-number">4.2.</span> <span class="nav-text">焦点事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#鼠标和滚轮事件"><span class="nav-number">4.3.</span> <span class="nav-text">鼠标和滚轮事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改键"><span class="nav-number">4.4.</span> <span class="nav-text">修改键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#键盘与文本事件"><span class="nav-number">4.5.</span> <span class="nav-text">键盘与文本事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML5-事件"><span class="nav-number">4.6.</span> <span class="nav-text">HTML5 事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设备事件"><span class="nav-number">4.7.</span> <span class="nav-text">设备事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#触摸与手势事件"><span class="nav-number">4.8.</span> <span class="nav-text">触摸与手势事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存和性能"><span class="nav-number">5.</span> <span class="nav-text">内存和性能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件委托"><span class="nav-number">5.1.</span> <span class="nav-text">事件委托</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移出事件处理程序"><span class="nav-number">5.2.</span> <span class="nav-text">移出事件处理程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模拟事件"><span class="nav-number">6.</span> <span class="nav-text">模拟事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模拟鼠标事件"><span class="nav-number">6.1.</span> <span class="nav-text">模拟鼠标事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模拟键盘事件"><span class="nav-number">6.2.</span> <span class="nav-text">模拟键盘事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义事件"><span class="nav-number">6.3.</span> <span class="nav-text">自定义事件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">晋ICP备16002083号-1 </a>&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟禹丞</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+  <script id="dsq-count-scr" src="https://maxmeng.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.maxmeng.top/2016/11/17/event/";
+    this.page.identifier = "2016/11/17/event/";
+    this.page.title = '事件';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://maxmeng.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+  
+  
+    
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.min.css">
+
+  
+  
+    
+  
+  <script src="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

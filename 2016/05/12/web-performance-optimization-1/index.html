@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="xMV9Cl1Zwv3kAHKQMofWUQt8Vezt6KB4nhbhtijfzNE">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'IKMKY5PLMN',
+      apiKey: '2402ed27caf7c1e6b5ad4f83ae7ef011',
+      indexName: 'prod_Name',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言web 性能对对用户体验有及其重要的影响，根据著名的 2-5-8 原则：  当用户在2秒以内得到响应，会感觉系统的响应非常快； 当用户在2-5秒之内得到响应，会感觉系统的响应速度还可以； 当用户在5-8秒之内得到响应，会感觉系统的响应非常慢，但还可以接受； 当用户在8秒之后都没有得到响应，会感觉系统糟透了，甚至系统已经挂掉；要么打开竞争对手的网站，要么重新发起第二次请求。  根据前人的总结，其">
+<meta name="keywords" content="性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web性能优化(1)">
+<meta property="og:url" content="https://blog.maxmeng.top/2016/05/12/web-performance-optimization-1/index.html">
+<meta property="og:site_name" content="MaxMeng">
+<meta property="og:description" content="前言web 性能对对用户体验有及其重要的影响，根据著名的 2-5-8 原则：  当用户在2秒以内得到响应，会感觉系统的响应非常快； 当用户在2-5秒之内得到响应，会感觉系统的响应速度还可以； 当用户在5-8秒之内得到响应，会感觉系统的响应非常慢，但还可以接受； 当用户在8秒之后都没有得到响应，会感觉系统糟透了，甚至系统已经挂掉；要么打开竞争对手的网站，要么重新发起第二次请求。  根据前人的总结，其">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-26T09:41:34.026Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web性能优化(1)">
+<meta name="twitter:description" content="前言web 性能对对用户体验有及其重要的影响，根据著名的 2-5-8 原则：  当用户在2秒以内得到响应，会感觉系统的响应非常快； 当用户在2-5秒之内得到响应，会感觉系统的响应速度还可以； 当用户在5-8秒之内得到响应，会感觉系统的响应非常慢，但还可以接受； 当用户在8秒之后都没有得到响应，会感觉系统糟透了，甚至系统已经挂掉；要么打开竞争对手的网站，要么重新发起第二次请求。  根据前人的总结，其">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.maxmeng.top/2016/05/12/web-performance-optimization-1/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>web性能优化(1) | MaxMeng</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-75583813-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-75583813-2');
+  </script>
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0d2b253b47b87bcab1e0f46e8f7e8bce";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MaxMeng</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">前端博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.maxmeng.top/2016/05/12/web-performance-optimization-1/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="孟禹丞">
+      <meta itemprop="description" content="孟禹丞的个人博客">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MaxMeng">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">web性能优化(1)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-05-12 15:13:06" itemprop="dateCreated datePublished" datetime="2016-05-12T15:13:06+08:00">2016-05-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-26 17:41:34" itemprop="dateModified" datetime="2020-04-26T17:41:34+08:00">2020-04-26</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <a href="/2016/05/12/web-performance-optimization-1/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/05/12/web-performance-optimization-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>web 性能对对用户体验有及其重要的影响，根据著名的 2-5-8 原则：</p>
+<ul>
+<li>当用户在2秒以内得到响应，会感觉系统的响应非常快；</li>
+<li>当用户在2-5秒之内得到响应，会感觉系统的响应速度还可以；</li>
+<li>当用户在5-8秒之内得到响应，会感觉系统的响应非常慢，但还可以接受；</li>
+<li>当用户在8秒之后都没有得到响应，会感觉系统糟透了，甚至系统已经挂掉；要么打开竞争对手的网站，要么重新发起第二次请求。</li>
+</ul>
+<p>根据前人的总结，其实就是下面几点的优化：</p>
+<ol>
+<li>减少 HTTP 请求</li>
+<li>页面内部优化</li>
+<li>启用缓存</li>
+<li>减少下载量</li>
+<li>优化网络连接</li>
+</ol>
+<a id="more"></a>
+<h2 id="减少-HTTP-请求"><a href="#减少-HTTP-请求" class="headerlink" title="减少 HTTP 请求"></a>减少 HTTP 请求</h2><p>主要主要从这两方面下手：减少图片请求、减少脚本文件与样式表的请求</p>
+<h3 id="减少图片请求"><a href="#减少图片请求" class="headerlink" title="减少图片请求"></a>减少图片请求</h3><p>图片减少通常的方法有：css sprites、内联图片、IconFont</p>
+<p>CSS Sprites：将多张图片合并成一幅单独的图片，使用 css 的 background-position 属性，将 html 元素的背景图片放在图片中期望位置上。使用这项技术的优点是降低了下载量，合并后的图片比分离的图片更小。</p>
+<p>内联图片：通过将图片 base64 编码后内联到css中，可以使页面中包含图片而无需额外的请求。</p>
+<p>IconFont：图标字体，这是近年来流行的字体替代图片的技术。它可以适应任何分辨率而不会出现模糊，与图片相比具有更下的容量，更高的灵活度。</p>
+<h3 id="减少脚本与样式表请求"><a href="#减少脚本与样式表请求" class="headerlink" title="减少脚本与样式表请求"></a>减少脚本与样式表请求</h3><p>减少脚本与样式表的请求主要原则就是合并。在实际开发中，代码可能分散在许多不同的文件和模块中，需要在项目上线时将这些文件合并为一个文件，并且在文件合并中需要对文件进行压缩和混淆。</p>
+<h2 id="页面内部优化"><a href="#页面内部优化" class="headerlink" title="页面内部优化"></a>页面内部优化</h2><p>页面内部优化主要方向：样式表放在顶部、脚本文件放到底部、避免css表达式、把脚本和样式表放在外部文件、移除重复脚本。</p>
+<p>样式表放在底部会阻碍页面的生成，造成频繁重排和重绘，直到样式表解析完毕。样式表放到顶部虽然不会减少资源的加载时间，但会减少页面的呈现时间。</p>
+<p>在解析HTML标记时，浏览器遇到了 JavaScript,解析就会停止。直到该脚本执行完毕后，HTML才会继续进行。因此要将脚本放到页面的最底部，这样既可以让内容逐步呈现，也可以提高下载的并行度。</p>
+<h2 id="启用缓存"><a href="#启用缓存" class="headerlink" title="启用缓存"></a>启用缓存</h2><p>关于缓存的使用这里介绍两套方案：expires/If-Modified-Since、Cache-Control/Etag；前者是HTTP1.0中的缓存方案，后者是HTTP1.1中缓存方案，若http头部中同时出现二者，后者的优先级更高。<a href="http://www.cnblogs.com/skylar/p/browser-http-caching.html" target="_blank" rel="noopener">详细内容点此查看</a></p>
+<h2 id="减少下载量"><a href="#减少下载量" class="headerlink" title="减少下载量"></a>减少下载量</h2><p>减少下载量最有效的方式就是开启 gzip 压缩，gzip是 GNU 开发的一种免费格式。压缩通常能将响应的数据量减少 70%。压缩的成本在于：服务器需要耗费额外的 cpu 尽心压缩，客户端需要解压缩。所以需要在 cpu 的消耗和数据块的大小之间取舍。</p>
+<h2 id="优化网络连接"><a href="#优化网络连接" class="headerlink" title="优化网络连接"></a>优化网络连接</h2><p>网络连接的优化主要有三个规则：使用 CDN 加速、减少 DNS 查找、避免重定向。</p>
+<p>CDN： CDN是地理上分布的web server的集合，用于更高效地发布内容。通常基于网络远近来选择给具体用户服务的web server。这缩短了资源的传输响应时间，有效提高web性能。</p>
+<p>DNS：DNS用于映射主机名和IP地址，一般一次解析需要20～120毫秒。浏览器会首先根据页面的主机名进行域名解析，在有ISP返回结果之前页面不会加载任何内容，所以减少DNS查找可以有效降低等待时间。为达到更高的性能，DNS解析通常被多级别地缓存，如由ISP或局域网维护的caching server，本地机器操作系统的缓存（如windows上的DNS Client Service），浏览器。IE的缺省DNS缓存时间为30分钟，Firefox的缺省缓冲时间是1分钟。我们能做的是尽量减少一个页面的主机名，但要在浏览器最大并行下载数跟dns查找之间做权衡。根据雅虎的研究，最好将主机名控制在2-4个内。</p>
+<p>重定向：将一个URL重新路由到另一个URL。重定向功能是通过301和302这两个HTTP状态码完成的。这是一种最耗费资源、经常发生而很容易被忽视的重定向是 URL 的最后缺少 <code>/</code> ,导致自动产生结尾斜线的原因是，浏览器在进行get请求是必须指定一些路径；如果没有路径它就会简单的使用文档根。（主机缺少结尾斜线是不会发生重定向）缺少结尾斜线发生重定向是很多web服务器的默认行为。需要在服务器端设置方可消除。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/11/web-development-naming-rule/" rel="next" title="前端开发中的命名规范">
+                <i class="fa fa-chevron-left"></i> 前端开发中的命名规范
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/17/web-mobile-develop-summary/" rel="prev" title="web移动端开发总结">
+                web移动端开发总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="孟禹丞">
+            
+              <p class="site-author-name" itemprop="name">孟禹丞</p>
+              <p class="site-description motion-element" itemprop="description">孟禹丞的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/maxmeng93" title="GitHub &rarr; https://github.com/maxmeng93" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:maxmeng93@gmail.com" title="E-Mail &rarr; mailto:maxmeng93@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.maxmeng.top/" title="https://www.maxmeng.top/" rel="noopener" target="_blank">MaxMeng</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://webstack.maxmeng.top/" title="https://webstack.maxmeng.top/" rel="noopener" target="_blank">前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.maxmeng.top/d3-example/" title="https://blog.maxmeng.top/d3-example/">学习D3系列</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减少-HTTP-请求"><span class="nav-number">2.</span> <span class="nav-text">减少 HTTP 请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#减少图片请求"><span class="nav-number">2.1.</span> <span class="nav-text">减少图片请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减少脚本与样式表请求"><span class="nav-number">2.2.</span> <span class="nav-text">减少脚本与样式表请求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面内部优化"><span class="nav-number">3.</span> <span class="nav-text">页面内部优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用缓存"><span class="nav-number">4.</span> <span class="nav-text">启用缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减少下载量"><span class="nav-number">5.</span> <span class="nav-text">减少下载量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化网络连接"><span class="nav-number">6.</span> <span class="nav-text">优化网络连接</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">晋ICP备16002083号-1 </a>&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟禹丞</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+  <script id="dsq-count-scr" src="https://maxmeng.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.maxmeng.top/2016/05/12/web-performance-optimization-1/";
+    this.page.identifier = "2016/05/12/web-performance-optimization-1/";
+    this.page.title = 'web性能优化(1)';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://maxmeng.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+  
+  
+    
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.min.css">
+
+  
+  
+    
+  
+  <script src="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

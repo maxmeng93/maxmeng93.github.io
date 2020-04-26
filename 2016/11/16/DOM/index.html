@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="xMV9Cl1Zwv3kAHKQMofWUQt8Vezt6KB4nhbhtijfzNE">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'IKMKY5PLMN',
+      apiKey: '2402ed27caf7c1e6b5ad4f83ae7ef011',
+      indexName: 'prod_Name',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="DOM–文档对象模型">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DOM api总结">
+<meta property="og:url" content="https://blog.maxmeng.top/2016/11/16/DOM/index.html">
+<meta property="og:site_name" content="MaxMeng">
+<meta property="og:description" content="DOM–文档对象模型">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005VWk7Ogw1f9twuj4b8jj31kw0wvjvp.jpg">
+<meta property="og:updated_time" content="2020-04-26T09:41:34.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DOM api总结">
+<meta name="twitter:description" content="DOM–文档对象模型">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005VWk7Ogw1f9twuj4b8jj31kw0wvjvp.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.maxmeng.top/2016/11/16/DOM/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>DOM api总结 | MaxMeng</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-75583813-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-75583813-2');
+  </script>
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0d2b253b47b87bcab1e0f46e8f7e8bce";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MaxMeng</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">前端博客</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.maxmeng.top/2016/11/16/DOM/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="孟禹丞">
+      <meta itemprop="description" content="孟禹丞的个人博客">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MaxMeng">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DOM api总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-11-16 13:36:37" itemprop="dateCreated datePublished" datetime="2016-11-16T13:36:37+08:00">2016-11-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-26 17:41:34" itemprop="dateModified" datetime="2020-04-26T17:41:34+08:00">2020-04-26</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <a href="/2016/11/16/DOM/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/16/DOM/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>DOM–文档对象模型</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="DOM-树"><a href="#DOM-树" class="headerlink" title="DOM 树"></a>DOM 树</h2><ul>
+<li>DOM元素树：以Document对象为根，每个HTML标签都是元素树的一个节点</li>
+<li>DOM节点树：以document对象为根，每个标签、文本、属性、注释都是节点树上的一个节点  </li>
+</ul>
+<h3 id="节点树和元素树的区别"><a href="#节点树和元素树的区别" class="headerlink" title="节点树和元素树的区别"></a>节点树和元素树的区别</h3><table>
+<thead>
+<tr>
+<th>节点</th>
+<th>节点树</th>
+<th>元素树</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>父节点</td>
+<td>parentNode</td>
+<td>parentElementNode</td>
+</tr>
+<tr>
+<td>全部子节点</td>
+<td>childNode</td>
+<td>children</td>
+</tr>
+<tr>
+<td>第一个子节点</td>
+<td>firstChild</td>
+<td>firstElementChild</td>
+</tr>
+<tr>
+<td>最后一个子节点</td>
+<td>lastChild</td>
+<td>lastElementChild</td>
+</tr>
+<tr>
+<td>下一个兄弟节点</td>
+<td>nextSibling</td>
+<td>nextElementSibling</td>
+</tr>
+<tr>
+<td>上一个兄弟节点</td>
+<td>previousSibling</td>
+<td>previousElementSibling</td>
+</tr>
+</tbody>
+</table>
+<h3 id="node对象的几个属性"><a href="#node对象的几个属性" class="headerlink" title="node对象的几个属性"></a>node对象的几个属性</h3><ul>
+<li>parentNode：node类型，当前节点的唯一的直接的父节点对象。</li>
+<li>childNode：nodelist类型，当前节点的所有子节点，组成的一个类数组对象。</li>
+<li>firstChild：node类型，当前节点的第一个子节点</li>
+<li>lastChild：node类型，当前节点的最后一个子节点</li>
+<li>nextSibling：node类型，当前节点的下一个兄弟节点</li>
+<li>previousSibling: node类型，当前节点的上一个兄弟节点</li>
+<li>nodeName：String类型</li>
+<li>nodeType：Number类型</li>
+<li>nodeValue：String类型</li>
+</ul>
+<h2 id="DOM-节点类型"><a href="#DOM-节点类型" class="headerlink" title="DOM 节点类型"></a>DOM 节点类型</h2><table>
+<thead>
+<tr>
+<th>节点类型</th>
+<th>节点描述</th>
+<th>nodeName</th>
+<th>nodeValue</th>
+<th>nodeType</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>element</td>
+<td>元素节点</td>
+<td>元素名</td>
+<td>null</td>
+<td>1</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>属性节点</td>
+<td>属性名称</td>
+<td>属性值</td>
+<td>2</td>
+</tr>
+<tr>
+<td>text</td>
+<td>文本节点</td>
+<td>#text</td>
+<td>文本内容</td>
+<td>3 </td>
+</tr>
+<tr>
+<td>comment</td>
+<td>注释</td>
+<td>#comment</td>
+<td>注释文本</td>
+<td>8 </td>
+</tr>
+<tr>
+<td>document</td>
+<td>文档</td>
+<td>#document</td>
+<td>null</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Notation</td>
+<td>DTD中的声明</td>
+<td>符号名称</td>
+<td>null</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+<h2 id="DOM-节点关系"><a href="#DOM-节点关系" class="headerlink" title="DOM 节点关系"></a>DOM 节点关系</h2><p><img src="http://ww1.sinaimg.cn/large/005VWk7Ogw1f9twuj4b8jj31kw0wvjvp.jpg" alt="DOM 节点关系"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取元素节点中的内容</span></span><br><span class="line">el.innerHTML;<span class="comment">//获取/设置元素中的HTML内容</span></span><br><span class="line">el.textContent;<span class="comment">//获取/设置元素中的纯文本 --IE8下不支持</span></span><br><span class="line">el.innerText;<span class="comment">//获取/设置元素中的纯文本 --火狐下不支持</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//与元素节点的属性相关的DOM属性</span></span><br><span class="line">el.attributes;<span class="comment">//获取元素节点的所有属性节点--类数组对象</span></span><br><span class="line">el.attributes[<span class="string">'属性名'</span>];<span class="comment">//获取元素身上指定属性的值</span></span><br><span class="line">el.getAttribute(<span class="string">'属性名'</span>);<span class="comment">//获取元素身上指定属性的值</span></span><br><span class="line">el.setAttributeNode(attrNode);<span class="comment">//修改某属性的值</span></span><br><span class="line">el.removeAttribute(<span class="string">'属性名'</span>);<span class="comment">//删除指定的属性</span></span><br><span class="line">el.hasAttribute(<span class="string">'属性名'</span>);<span class="comment">//检查是否右某属性</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//在DOM树中查找/选择元素节点</span></span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">'id'</span>);</span><br><span class="line"><span class="built_in">document</span>/node.getElementsByTagName(<span class="string">'标签名'</span>);</span><br><span class="line"><span class="built_in">document</span>.getElementsByName(<span class="string">'name属性名'</span>);</span><br><span class="line"><span class="built_in">document</span>/node.getElementsByClassName(<span class="string">'class名'</span>);</span><br><span class="line"><span class="built_in">document</span>/node.querySelector(<span class="string">'css选择器'</span>);<span class="comment">//返回第一个匹配的</span></span><br><span class="line"><span class="built_in">document</span>/node.querySelectorAll(<span class="string">'css选择器'</span>);<span class="comment">//返回所有匹配的</span></span><br><span class="line"><span class="built_in">document</span>.all;<span class="comment">//获取HTML中所有元素节点对象</span></span><br><span class="line"><span class="built_in">document</span>.documentElement;<span class="comment">//获取HTML标签</span></span><br><span class="line"><span class="built_in">document</span>.body;<span class="comment">//获取body标签</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用DOM方法创建新节点"><a href="#使用DOM方法创建新节点" class="headerlink" title="使用DOM方法创建新节点"></a>使用DOM方法创建新节点</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建属性节点</span></span><br><span class="line"><span class="keyword">var</span> attr = <span class="built_in">document</span>.createAttribute(<span class="string">'属性名'</span>);</span><br><span class="line">attr.value = <span class="string">'属性值'</span>;</span><br><span class="line">el.setAttributeNode(attr);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建元素节点</span></span><br><span class="line"><span class="keyword">var</span> el = <span class="built_in">document</span>.createElement(<span class="string">'元素名'</span>);</span><br><span class="line">parent.appendChild(el);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建文本节点</span></span><br><span class="line"><span class="keyword">var</span> txt = <span class="built_in">document</span>.createTextNode(<span class="string">'文本内容'</span>);</span><br><span class="line">parent.appendChild(txt);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建注释节点</span></span><br><span class="line"><span class="keyword">var</span> com = <span class="built_in">document</span>.createComment(<span class="string">'注释内容'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建新的文档片段节点</span></span><br><span class="line"><span class="keyword">var</span> fragment = <span class="built_in">document</span>.createDocumentFragment();</span><br><span class="line">fragment.appendChild(el);</span><br><span class="line">parent.appendChild(fragment);</span><br><span class="line"></span><br><span class="line"><span class="comment">//把一个新创建的节点添加到现存的DOM树上，有以下2个方法</span></span><br><span class="line">parent.appendChild(el);</span><br><span class="line">parent.insertBefore(newEl, exisingChild);</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除已有节点</span></span><br><span class="line"><span class="keyword">var</span> el = parentNode.removeChild(el);</span><br><span class="line"></span><br><span class="line"><span class="comment">//替换已有节点</span></span><br><span class="line">replaceEl = parentNode.replaceChild(nex, exisingChild);</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除属性节点</span></span><br><span class="line">el.removeAttribute(<span class="string">'属性名'</span>);</span><br><span class="line">el.removeAttributeNode(attrNode);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/16/BOM/" rel="next" title="BOM api总结">
+                <i class="fa fa-chevron-left"></i> BOM api总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/16/DOM-extend/" rel="prev" title="DOM 扩展">
+                DOM 扩展 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="孟禹丞">
+            
+              <p class="site-author-name" itemprop="name">孟禹丞</p>
+              <p class="site-description motion-element" itemprop="description">孟禹丞的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/maxmeng93" title="GitHub &rarr; https://github.com/maxmeng93" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:maxmeng93@gmail.com" title="E-Mail &rarr; mailto:maxmeng93@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.maxmeng.top/" title="https://www.maxmeng.top/" rel="noopener" target="_blank">MaxMeng</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://webstack.maxmeng.top/" title="https://webstack.maxmeng.top/" rel="noopener" target="_blank">前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.maxmeng.top/d3-example/" title="https://blog.maxmeng.top/d3-example/">学习D3系列</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM-树"><span class="nav-number">1.</span> <span class="nav-text">DOM 树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#节点树和元素树的区别"><span class="nav-number">1.1.</span> <span class="nav-text">节点树和元素树的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node对象的几个属性"><span class="nav-number">1.2.</span> <span class="nav-text">node对象的几个属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM-节点类型"><span class="nav-number">2.</span> <span class="nav-text">DOM 节点类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM-节点关系"><span class="nav-number">3.</span> <span class="nav-text">DOM 节点关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用DOM方法创建新节点"><span class="nav-number">4.</span> <span class="nav-text">使用DOM方法创建新节点</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">晋ICP备16002083号-1 </a>&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟禹丞</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+  <script id="dsq-count-scr" src="https://maxmeng.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.maxmeng.top/2016/11/16/DOM/";
+    this.page.identifier = "2016/11/16/DOM/";
+    this.page.title = 'DOM api总结';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://maxmeng.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+  
+  
+    
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.min.css">
+
+  
+  
+    
+  
+  <script src="//cdn.jsdelivr.net/npm/instantsearch.js@2/dist/instantsearch.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
